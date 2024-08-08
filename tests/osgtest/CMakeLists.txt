@@ -1,0 +1,9 @@
+set(CURRENT_TARGET_NAME osgtest)
+find_package(OpenSceneGraph COMPONENTS osgDB REQUIRED)
+GLS_ADD_TEST(${CURRENT_TARGET_NAME})
+
+target_include_directories(${CURRENT_TARGET_NAME} 
+    PRIVATE
+        $<BUILD_INTERFACE:${OPENSCENEGRAPH_INCLUDE_DIRS}>)
+        
+target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE ${OPENSCENEGRAPH_LIBRARIES})
