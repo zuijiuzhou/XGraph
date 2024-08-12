@@ -36,13 +36,13 @@ static void downsample(const std::vector<osg::Vec4>& input,
 
     if (input.empty()) return;
 
-    auto is_discarded = false;
+    auto is_last_point_discarded = false;
     for (int i = 0; i < (is_closed ? input.size() : input.size() - 1); i++) {
         auto& pt = input[i];
 
-        if (is_discarded) {
+        if (is_last_point_discarded) {
             output.push_back(pt);
-            is_discarded = false;
+            is_last_point_discarded = false;
             continue;
         }
 
@@ -51,7 +51,7 @@ static void downsample(const std::vector<osg::Vec4>& input,
             auto  dist    = (next_pt - pt).length2();
             if (dist > max_dist_squared) {
                 output.push_back(pt);
-                is_discarded = false;
+                is_last_point_discarded = false;
                 continue;
             }
         }
@@ -76,38 +76,38 @@ static void downsample(const std::vector<osg::Vec4>& input,
                 }
             }
 
-            if(i == input.size() - 1){
-                next_pt = is_closed ? &input.front() : nullptr;
+            if (i == input.size() - 1) {
+                next_pt      = is_closed ? &input.front() : nullptr;
                 next_next_pt = is_closed ? &input[1] : nullptr;
             }
-            else{
+            else {
                 next_pt = &input[i + 1];
-                if(i == input.size() - 2){
+                if (i == input.size() - 2) {
                     next_next_pt = is_closed ? &input.front() : nullptr;
                 }
-                else{
-                    next_next_pt = &input[i+2];
+                else {
+                    next_next_pt = &input[i + 2];
                 }
             }
 
-            if(prev_pt && prev_prev_pt && next_pt && calcAngle(*prev_prev_pt, *prev_pt, *next_pt) > min_cos){
+            if (prev_pt && prev_prev_pt && next_pt && calcAngle(*prev_prev_pt, *prev_pt, *next_pt) > min_cos) {
                 output.push_back(pt);
-                is_discarded = false;
+                is_last_point_discarded = false;
                 continue;
             }
-            else if(prev_pt && next_pt && next_next_pt && calcAngle(*prev_pt, *next_pt, * next_next_pt) > min_cos){
+            else if (prev_pt && next_pt && next_next_pt && calcAngle(*prev_pt, *next_pt, *next_next_pt) > min_cos) {
                 output.push_back(pt);
-                is_discarded = false;
+                is_last_point_discarded = false;
                 continue;
             }
-            else{
-                is_discarded = true;
+            else {
+                is_last_point_discarded = true;
                 continue;
             }
         }
 
         output.push_back(pt);
-        is_discarded = false;
+        is_last_point_discarded = false;
     }
     output.push_back(input.back());
 }
@@ -133,7 +133,6 @@ void DottedCurve::setIsClosed(bool val) {
 }
 
 void DottedCurve::sort() {
-    
 }
 
 void DottedCurve::downsample(float max_dist, float max_angle, int max_iterations) {
@@ -143,12 +142,12 @@ void DottedCurve::downsample(float max_dist, float max_angle, int max_iterations
     pts.reserve(d->pts.size());
 
     for (auto& pt : d->pts) {
-        pts.push_back(osg::Vec4(pt, 0));
+        pts.push_back(osg::Vec4(pt, 1));
     }
 
     std::vector<osg::Vec4> output;
     auto                   max_dist_squared = max_dist * max_dist;
-    auto                   min_cos          = cos(max_angle);
+    auto                   min_cos          = cos(osg::DegreesToRadians(max_angle));
 
     while (max_iterations > 0) {
         if (d->is_closed) {
@@ -181,10 +180,10 @@ std::vector<osg::Vec3> DottedCurve::getPoints() const {
     return d->pts;
 }
 
-osg::MatrixTransform* DottedCurve::createGeometry(const osg::Vec4& points_color,
-                                                  const osg::Vec4& lines_color,
-                                                  bool             points_visible,
-                                                  bool             lines_visible) const {
+osg::MatrixTransform* DottedCurve::createGeometry(bool             points_visible,
+                                                  bool             lines_visible,
+                                                  const osg::Vec4& points_color,
+                                                  const osg::Vec4& lines_color) const {
     auto vertices = new osg::Vec3Array();
     auto colors   = new osg::Vec4Array();
     vertices->reserve(d->pts.size());

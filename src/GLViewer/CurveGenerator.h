@@ -1,6 +1,6 @@
 
 #pragma once
-#include <osg/Vec3d>
+#include <osg/Vec3>
 #include <osg/Vec4>
 #include <vector>
 
@@ -11,12 +11,12 @@ namespace glv {
 
 class DottedCurve;
 
-osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3d>& ctrl_points,
+osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
                                     const std::vector<double>&     params,
-                                    const std::vector<osg::Vec3d>& tangents,
+                                    const std::vector<osg::Vec3>& tangents,
                                     const osg::Vec4&               color);
 
-DottedCurve* createDottedCurve(const std::vector<osg::Vec3d>& ctrl_points,
+DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
                               const std::vector<double>&     params,
-                              const std::vector<osg::Vec3d>& tangents);
+                              const std::vector<osg::Vec3>& tangents);
 } // namespace glv

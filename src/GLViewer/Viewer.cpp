@@ -37,12 +37,13 @@ class ViewerEx : public osgViewer::Viewer {
 constexpr const char* S_PICK_VS_STR = R"(
 #version 330 core
 layout(location = 0) in vec3 position;
-// layout(location = 15) in vec4 color;
+layout(location = 3) in vec4 color;
 uniform mat4 osg_ModelViewProjectionMatrix;
 out vec4 frag_color;
 void main(){
   gl_Position = osg_ModelViewProjectionMatrix * vec4(position.x, position.y, position.z, 1.0);
-  frag_color = vec4(1, 1, 0, 1);
+  // frag_color = vec4(1, 1, 0, 1);
+  frag_color = color;
 }
   )";
 
@@ -68,7 +69,7 @@ class PickCameraPostDrawCallback : public osg::Camera::DrawCallback {
             GLint fbo_id;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo_id);
             glReadBuffer(GL_COLOR_ATTACHMENT0);
-            img->readPixels(0, 0, vp->width(), vp->height(), GL_GREEN, GL_UNSIGNED_BYTE);
+            img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             osgDB::writeImageFile(*img, "d:/1.bmp");
@@ -152,7 +153,7 @@ Viewer::Viewer()
     auto gc                  = osg::GraphicsContext::createGraphicsContext(traits);
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
-    // gc->getState()->resetVertexAttributeAlias(false);
+    gc->getState()->resetVertexAttributeAlias(true);
     // gc->getState()->setUseVertexAttributeAliasing(true);
     gc->getState()->setUseModelViewAndProjectionUniforms(true);
     // gc->getState()->setUseVertexAttributeAliasing(true);

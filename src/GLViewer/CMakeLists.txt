@@ -4,6 +4,7 @@ find_package(OpenSceneGraph REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgV
 find_package(opencascade REQUIRED)
 find_package(assimp REQUIRED)
 find_package(PCL CONFIG REQUIRED)
+find_package(VTK REQUIRED)
 # find_package(osgVerse REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -42,4 +43,15 @@ if(NOT DEFINED osgVerse_LIBRARIES)
     # endforeach()
 endif()
 message(---------${PCL_LIBRARIES})
-target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE Utilities glfw ${OPENSCENEGRAPH_LIBRARIES} ${osgVerse_LIBRARIES} ${PCL_LIBRARIES}  assimp::assimp TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d imm32.lib opengl32.lib)
+target_link_libraries(${CURRENT_TARGET_NAME} 
+    PRIVATE 
+        Utilities 
+        glfw 
+        ${OPENSCENEGRAPH_LIBRARIES} 
+        ${osgVerse_LIBRARIES} 
+        ${PCL_LIBRARIES}  
+        assimp::assimp 
+        TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d 
+        imm32.lib 
+        opengl32.lib
+        VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry)

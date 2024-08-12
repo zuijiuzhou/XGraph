@@ -26,7 +26,10 @@ class DottedCurve {
     void                   sort();
     void                   downsample(float max_dist, float max_angle, int max_iterations);
     std::vector<osg::Vec3> getPoints() const;
-    osg::MatrixTransform*  createGeometry(const osg::Vec4& points_color, const osg::Vec4& lines_color, bool points_visible = true, bool lines_visible = true) const;
+    osg::MatrixTransform*  createGeometry(bool             points_visible = true,
+                                          bool             lines_visible  = true,
+                                          const osg::Vec4& points_color   = osg::Vec4(1, 0, 0, 1),
+                                          const osg::Vec4& lines_color    = osg::Vec4(0, 1, 0, 1)) const;
 
   private:
     struct Data;

@@ -6,7 +6,6 @@ find_package(assimp CONFIG REQUIRED)
 find_package(sdl2 CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
 find_package(Vine REQUIRED)
-find_package(VTK REQUIRED)
 
 qt_standard_project_setup()
 
@@ -23,7 +22,6 @@ target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE
     assimp::assimp 
     SDL2::SDL2 
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
-    VTK::CommonCore VTK::IOPLY
     ${PCL_LIBRARIES} 
     ${OpenCV_LIBS} )
 

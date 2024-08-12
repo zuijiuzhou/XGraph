@@ -20,9 +20,9 @@
 
 namespace glv {
 
-static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg::Vec3d>& ctrl_points,
+static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg::Vec3>& ctrl_points,
                                                           const std::vector<double>&     params,
-                                                          const std::vector<osg::Vec3d>& tangents) {
+                                                          const std::vector<osg::Vec3>& tangents) {
     Handle(TColgp_HArray1OfPnt) pnts           = new TColgp_HArray1OfPnt(1, ctrl_points.size());
     Handle(TColStd_HArray1OfReal) pnt_params   = new TColStd_HArray1OfReal(1, params.size());
     Handle(TColgp_HArray1OfVec) tans           = new TColgp_HArray1OfVec(1, tangents.size());
@@ -86,7 +86,7 @@ static osg::Geometry* createCurveGeometry(Geom_BSplineCurve* curve, const osg::V
     return geom;
 }
 
-static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3d>& points) {
+static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3>& points) {
     auto vertices = new osg::Vec3Array();
     for (auto& pt : points) {
         vertices->push_back(pt);
@@ -101,9 +101,9 @@ static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3d>& points
     return geom;
 }
 
-osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3d>& ctrl_points,
+osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
                                     const std::vector<double>&     params,
-                                    const std::vector<osg::Vec3d>& tangents,
+                                    const std::vector<osg::Vec3>& tangents,
                                     const osg::Vec4&               color) {
     auto curve = createCurve(ctrl_points, params, tangents);
     auto geod  = new osg::Geode();
@@ -119,9 +119,9 @@ osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3d>& ctrl_points,
     return model;
 }
 
-DottedCurve* createDottedCurve(const std::vector<osg::Vec3d>& ctrl_points,
+DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
                               const std::vector<double>&     params,
-                              const std::vector<osg::Vec3d>& tangents) {
+                              const std::vector<osg::Vec3>& tangents) {
     auto                   curve = createCurve(ctrl_points, params, tangents);
     GeomAdaptor_Curve      adaptor(curve, curve->FirstParameter(), curve->LastParameter());
     GCPnts_UniformAbscissa spliter(adaptor, 1.);
