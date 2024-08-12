@@ -45,7 +45,7 @@ endif()
 message(---------${PCL_LIBRARIES})
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
-        Utilities 
+        StdUtils 
         glfw 
         ${OPENSCENEGRAPH_LIBRARIES} 
         ${osgVerse_LIBRARIES} 

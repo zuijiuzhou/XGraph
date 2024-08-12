@@ -2,10 +2,10 @@
 #include <map>
 
 #include <vine/core/Ptr.h>
+#include "StdUtils/Resources.h"
 
 #include "CubeMap.h"
 #include "Shader.h"
-#include "Utilities/Resources.h"
 
 namespace glr {
 

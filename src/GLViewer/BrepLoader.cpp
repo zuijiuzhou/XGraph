@@ -27,7 +27,7 @@
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include "Utilities/Text.h"
+#include "StdUtils/Text.h"
 
 #include "ModelDefs.h"
 

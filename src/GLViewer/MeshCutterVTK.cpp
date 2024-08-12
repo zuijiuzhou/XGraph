@@ -269,7 +269,6 @@ void MeshCutterVTK::getOrderedPoints(osg::Vec3Array& pnts, std::vector<int>& par
     // }
 }
 
-
 void MeshCutterVTK::getOrderedPoints(std::vector<osg::Vec3>& pnts, std::vector<int>& parts) const {
     pnts.clear();
     parts.clear();

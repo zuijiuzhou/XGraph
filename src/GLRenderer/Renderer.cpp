@@ -5,6 +5,8 @@
 
 #include <vine/core/Ptr.h>
 
+#include "StdUtils/Resources.h"
+
 #include "Camera.h"
 #include "CameraManipulator.h"
 #include "Drawable.h"
@@ -13,7 +15,6 @@
 #include "Shader.h"
 #include "State.h"
 #include "StateSet.h"
-#include "Utilities/Resources.h"
 
 namespace glr {
 VI_OBJECT_META_IMPL(Renderer, Object);

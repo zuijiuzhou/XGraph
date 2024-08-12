@@ -4,8 +4,8 @@
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
-#include "Utilities/Environment.h"
-#include "Utilities/Text.h"
+#include "StdUtils/Environment.h"
+#include "StdUtils/Text.h"
 
 #include "BrepLoader.h"
 #include "CoordGenerator.h"
@@ -197,9 +197,12 @@ int main(int argc, char** argv) {
 
     auto dc2 = createDottedCurve(pnts3, {}, {});
     auto dc2_model = dc2->createGeometry();
-    dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
+    // dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
     v.addNode(dc2_model);
-    // v.addNode(mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1)));
+
+    auto mesh = mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1));
+    mesh->setMatrix(osg::Matrix::translate(300,0,0));
+    v.addNode(mesh);
 
     v.fitToScreen();
     v.run();

@@ -21,7 +21,7 @@
 namespace glv {
 
 static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg::Vec3>& ctrl_points,
-                                                          const std::vector<double>&     params,
+                                                          const std::vector<double>&    params,
                                                           const std::vector<osg::Vec3>& tangents) {
     Handle(TColgp_HArray1OfPnt) pnts           = new TColgp_HArray1OfPnt(1, ctrl_points.size());
     Handle(TColStd_HArray1OfReal) pnt_params   = new TColStd_HArray1OfReal(1, params.size());
@@ -102,9 +102,9 @@ static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3>& points)
 }
 
 osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
-                                    const std::vector<double>&     params,
+                                    const std::vector<double>&    params,
                                     const std::vector<osg::Vec3>& tangents,
-                                    const osg::Vec4&               color) {
+                                    const osg::Vec4&              color) {
     auto curve = createCurve(ctrl_points, params, tangents);
     auto geod  = new osg::Geode();
     if (curve) {
@@ -120,13 +120,13 @@ osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
 }
 
 DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
-                              const std::vector<double>&     params,
-                              const std::vector<osg::Vec3>& tangents) {
+                               const std::vector<double>&    params,
+                               const std::vector<osg::Vec3>& tangents) {
     auto                   curve = createCurve(ctrl_points, params, tangents);
     GeomAdaptor_Curve      adaptor(curve, curve->FirstParameter(), curve->LastParameter());
     GCPnts_UniformAbscissa spliter(adaptor, 1.);
 
-    auto nb_pnts  = spliter.NbPoints();
+    auto                   nb_pnts = spliter.NbPoints();
     std::vector<osg::Vec3> pts;
     pts.reserve(nb_pnts);
     for (int i = 1; i <= nb_pnts; i++) {

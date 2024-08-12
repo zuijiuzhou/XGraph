@@ -15,9 +15,9 @@ file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 add_executable(${CURRENT_TARGET_NAME} ${SRC_FILES} ${HEADER_FILES} ${GLAD_SRC_FILES})
 
 target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE
-    Utilities 
+    StdUtils 
     vi::Core vi::Ge 
-    glfw 
+    glfw
     glm::glm 
     assimp::assimp 
     SDL2::SDL2 

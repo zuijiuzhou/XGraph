@@ -6,6 +6,8 @@
 #include <vine/core/Ptr.h>
 #include <vine/ge/Rect2d.h>
 
+#include "StdUtils/Resources.h"
+
 #include "Camera.h"
 #include "CubeMap.h"
 #include "Geometry.h"
@@ -26,7 +28,6 @@
 #include "StateSet.h"
 #include "Texture2D.h"
 #include "Uniform.h"
-#include "Utilities/Resources.h"
 #include "Viewer.h"
 
 void CreateSampleShapes(glr::Renderer* renderer) {
