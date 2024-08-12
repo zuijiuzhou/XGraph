@@ -4,17 +4,9 @@
 namespace glr {
 class Model;
 class PointCloudLoader {
-
   public:
-    PointCloudLoader(const std::string& path);
+    Model* load(const std::string& file);
 
-  public:
-    Model* getData() const;
-
-  private:
-    void load(const std::string& path);
-
-  private:
-    Model* data_ = nullptr;
+    static bool isSupported(const std::string& file);
 };
 } // namespace glr

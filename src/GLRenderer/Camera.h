@@ -42,6 +42,8 @@ class Camera : public Object {
     void getViewport(int& x, int& y, int& w, int& h) const;
 
     void apply() const;
+    void applyViewport() const;
+    void applyAllExceptViewport() const;
 
   private:
     glm::mat4  view_matrix_;

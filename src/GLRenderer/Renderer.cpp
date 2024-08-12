@@ -12,9 +12,12 @@
 #include "Drawable.h"
 #include "GraphicContext.h"
 #include "Model.h"
+#include "RenderInfo.h"
+#include "Scene.h"
 #include "Shader.h"
 #include "State.h"
 #include "StateSet.h"
+#include "Viewer.h"
 
 namespace glr {
 VI_OBJECT_META_IMPL(Renderer, Object);
@@ -22,13 +25,16 @@ VI_OBJECT_META_IMPL(Renderer, Object);
 extern void state_set_current_camera(void* data, Camera* cam);
 
 struct Renderer::Data {
-    vine::RefPtr<Camera>              camera;
-    vine::RefPtr<GraphicContext>      ctx;
-    vine::RefPtr<CameraManipulator>   cm;
-    std::vector<vine::RefPtr<Model>>  models;
-    std::vector<vine::RefPtr<Shader>> shaders;
-    BoundingBox                       bb;
-    bool                              is_first_frame = true;
+    vine::RefPtr<Camera>            camera;
+    vine::RefPtr<GraphicContext>    ctx;
+    vine::RefPtr<CameraManipulator> cm;
+    vine::RefPtr<Scene>             scene;
+    RenderOrder                     render_order;
+    bool                            use_master_scene       = false;
+    bool                            use_master_viewport    = false;
+    bool                            use_master_view_matrix = false;
+    bool                            use_master_proj_matrix = false;
+    bool                            is_first_frame         = true;
 };
 
 Renderer::Renderer()
@@ -39,12 +45,6 @@ Renderer::Renderer()
 
 Renderer::~Renderer() {
     delete d;
-}
-
-void Renderer::addModel(Model* model) {
-    if (std::find(d->models.begin(), d->models.end(), model) == d->models.end()) {
-        d->models.push_back(model);
-    }
 }
 
 Camera* Renderer::getCamera() const {
@@ -71,24 +71,45 @@ void Renderer::setCameraManipulator(CameraManipulator* cm) {
     d->cm = cm;
 }
 
-void Renderer::render() {
+void Renderer::render(RenderInfo& info) {
     if (!d->ctx) return;
     if (d->is_first_frame) {
         d->is_first_frame = false;
     }
     d->ctx->makeCurrent();
-    d->camera->apply();
 
     glDepthRange(0.0, 1.0);
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
 
-    auto  matrix_v  = d->camera->getViewMatrix();
-    auto  matrix_vp = d->camera->getViewProjectionMatrix();
-    auto  view_dir  = d->camera->getViewDir();
+    auto viewer          = info.getViewer();
+    auto master_renderer = viewer->getMasterRenderer();
+    auto master_cam      = master_renderer->getCamera();
+
+
+    if (d->use_master_viewport) {
+        master_cam->applyViewport();
+        d->camera->applyAllExceptViewport();
+    }
+    else {
+        d->camera->apply();
+    }
+
+    auto  matrix_v  = d->use_master_view_matrix ? master_cam->getViewMatrix() : d->camera->getViewMatrix();
+    auto  matrix_p  = d->use_master_proj_matrix ? master_cam->getProjectionMatrix() : d->camera->getProjectionMatrix();
+    auto  matrix_vp = matrix_p * matrix_v;
+    auto  view_dir  = d->use_master_view_matrix ? master_cam->getViewDir() : d->camera->getViewDir();
     auto& ctx       = *d->ctx;
     auto& state     = *ctx.getState();
-    for (auto model : d->models) {
+
+    auto scene = d->use_master_scene ? master_renderer->getScene() : d->scene;
+    if (!scene) {
+        return;
+    }
+
+    auto nb_models = scene->getNbModels();
+    for (size_t i = 0; i < nb_models; ++i) {
+        auto model = scene->getModelAt(i);
         state_set_current_camera(state.d, d->camera.get());
         auto stateset = model->getStateSet();
         if (stateset) {
@@ -117,4 +138,51 @@ void Renderer::render() {
     }
 }
 
+void Renderer::setRenderOrder(RenderOrder order) {
+    d->render_order = order;
+}
+
+Renderer::RenderOrder Renderer::getRenderOrder() const {
+    return d->render_order;
+}
+
+void Renderer::setScene(Scene* scene) {
+    d->scene = scene;
+}
+
+Scene* Renderer::getScene() const {
+    return d->scene.get();
+}
+
+void Renderer::setUseMasterScene(bool val) {
+    d->use_master_scene = val;
+}
+
+bool Renderer::getUseMasterScene() const {
+    return d->use_master_scene;
+}
+
+void Renderer::setUseMasterViewport(bool val) {
+    d->use_master_viewport = val;
+}
+
+bool Renderer::getUseMasterViewport() const {
+    return d->use_master_viewport;
+}
+
+void Renderer::setUseMasterViewMatrix(bool val) {
+    d->use_master_view_matrix = val;
+}
+
+bool Renderer::getUseMasterViewMatrix() const {
+    return d->use_master_view_matrix;
+}
+
+void Renderer::setUseMasterProjectionMatrix(bool val) {
+    d->use_master_proj_matrix = val;
+}
+
+bool Renderer::getUseMasterProjectionMatrix() const {
+    return d->use_master_proj_matrix;
+}
 } // namespace glr

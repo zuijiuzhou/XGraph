@@ -21,8 +21,42 @@
 #include "StateSet.h"
 
 namespace glr {
+
 using PCPtr = pcl::PointCloud<pcl::PointXYZRGBA>::Ptr;
+
 namespace {
+
+enum FileType
+{
+    TYPE_UNKNOW,
+    TYPE_PLY,
+    TYPE_PCD
+};
+bool isPlyFile(const std::string& ext) {
+    return ext == ".ply";
+}
+
+bool isPcdFile(const std::string& ext) {
+    return ext == ".pcd";
+}
+
+bool isSupportedType(const std::string& file, FileType& type) {
+    namespace fs = std::filesystem;
+    fs::path path(file);
+    if (!path.has_extension()) return false;
+
+    auto file_ext = path.extension().string();
+    std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
+    if (isPlyFile(file_ext))
+        type = TYPE_PLY;
+    else if (isPcdFile(file_ext))
+        type = TYPE_PCD;
+    else
+        type = TYPE_UNKNOW;
+
+    return type != TYPE_UNKNOW;
+}
+
 Model* parse(const PCPtr cloud) {
     auto z_lower = 0.3f;
     auto z_upper = 0.5f;
@@ -134,27 +168,21 @@ Model* parse(const PCPtr cloud) {
 }
 }; // namespace
 
-PointCloudLoader::PointCloudLoader(const std::string& path) {
-    load(path);
+
+Model* PointCloudLoader::load(const std::string& file) {
+    FileType type;
+    if (!isSupportedType(file, type)) return nullptr;
+    if (type == TYPE_PLY) {
+        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
+        pcl::io::loadPLYFile<pcl::PointXYZRGBA>(file, *pc);
+        return parse(pc);
+    }
+    else if (type == TYPE_PCD) {
+        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
+        pcl::io::loadPCDFile<pcl::PointXYZRGBA>(file, *pc);
+        return parse(pc);
+    }
+    return nullptr;
 }
 
-void PointCloudLoader::load(const std::string& path) {
-    std::filesystem::path p(path);
-    auto                  ext = p.extension().string();
-    std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-    if (ext == ".ply") {
-        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
-        pcl::io::loadPLYFile<pcl::PointXYZRGBA>(path, *pc);
-        data_ = parse(pc);
-    }
-    else if (ext == ".pcd") {
-        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
-        pcl::io::loadPCDFile<pcl::PointXYZRGBA>(path, *pc);
-        data_ = parse(pc);
-    }
-}
-
-Model* PointCloudLoader::getData() const {
-    return data_;
-}
 } // namespace glr

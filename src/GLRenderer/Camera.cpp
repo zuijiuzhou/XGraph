@@ -101,8 +101,16 @@ glm::mat4x4 Camera::getViewProjectionMatrix() const {
 }
 
 void Camera::apply() const {
+    applyViewport();
+    applyAllExceptViewport();
+}
+
+void Camera::applyViewport() const {
     glViewport(vp_x_, vp_y_, vp_w_, vp_h_);
     glScissor(vp_x_, vp_y_, vp_w_, vp_h_);
+}
+
+void Camera::applyAllExceptViewport() const {
     glClearColor(clear_color_.r, clear_color_.g, clear_color_.b, clear_color_.a);
     glClearDepth(clear_depth_);
     glClearStencil(clear_stencil_);

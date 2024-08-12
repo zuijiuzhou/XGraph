@@ -83,7 +83,7 @@ bool MeshLoader::isSupported(const std::string& file) {
     fs::path path(file);
     if (!path.has_extension()) return false;
     auto                         file_ext = path.extension().string();
-    static std::set<std::string> exts     = { ".stl", ".obj", ".gltf", ".3mf", ".3ds", ".ply", ".dxf",
+    static std::set<std::string> exts     = { ".stl", ".obj", ".gltf", ".3mf", ".3ds", ".dxf",
                                               ".ifc", ".ac",  ".ac3d", ".lxo", ".fbx", ".dae" };
     return exts.contains(file_ext);
 }

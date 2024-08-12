@@ -8,6 +8,7 @@
 
 #include "StdUtils/Resources.h"
 
+#include "AppInitializer.h"
 #include "Camera.h"
 #include "CubeMap.h"
 #include "Geometry.h"
@@ -23,6 +24,7 @@
 #include "QtViewer.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Scene.h"
 #include "Shader.h"
 #include "SkyBox.h"
 #include "StateSet.h"
@@ -30,7 +32,7 @@
 #include "Uniform.h"
 #include "Viewer.h"
 
-void CreateSampleShapes(glr::Renderer* renderer) {
+void CreateSampleShapes(glr::Scene* scene) {
     auto axis = new glr::Model();
     {
         auto geom     = new glr::Geometry();
@@ -120,10 +122,10 @@ void CreateSampleShapes(glr::Renderer* renderer) {
         tex->setImage("C:\\Users\\sa\\Downloads\\1.jpg");
         auto geom_img =
             glr::Geometry::createTexturedQuad(0,
-                                             1,
-                                             3,
-                                             vine::ge::Rect2d(0, 0, tex->getWidth() / 100., tex->getHeight() / 100.),
-                                             vine::ge::Rect2d(0, 0, 1, 1));
+                                              1,
+                                              3,
+                                              vine::ge::Rect2d(0, 0, tex->getWidth() / 100., tex->getHeight() / 100.),
+                                              vine::ge::Rect2d(0, 0, 1, 1));
 
         // auto colors = new glr::Vec4fArray();
         // colors->push_back(glm::vec4(0,1,0,1));
@@ -136,27 +138,33 @@ void CreateSampleShapes(glr::Renderer* renderer) {
             glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
     }
 
-    renderer->addModel(axis);
-    renderer->addModel(pc);
-    renderer->addModel(cube);
-    renderer->addModel(skybox);
-    renderer->addModel(img);
+    scene->addModel(axis);
+    scene->addModel(pc);
+    scene->addModel(cube);
+    scene->addModel(skybox);
+    scene->addModel(img);
 }
 
 int main(int argc, char** argv) {
+    glr::AppInitializationParameters params;
+    glr::AppInitializer              initializer(params);
+    initializer.initGlfw();
+    initializer.initGlad();
+    initializer.initQt();
+
+    auto scene = new glr::Scene();
 
 #define GLFW_VIEWER
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;
     v.initialize();
-    auto renderer = v.getViewer()->getRendererAt(0);
+    auto renderer = v.getViewer()->getMasterRenderer();
 #else
     // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts, false);
-    QApplication     app(argc, argv);
+    QApplication      app(argc, argv);
     glr::QtMainWindow wnd;
-    auto             renderer = wnd.getViewer()->getViewer()->getRendererAt(0);
+    auto              renderer = wnd.getViewer()->getViewer()->getMasterRenderer();
 #endif
 
     if (argc > 1) {
@@ -176,10 +184,10 @@ int main(int argc, char** argv) {
         model->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
         model->getOrCreateStateSet()->setShader(
             glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
-        renderer->addModel(model);
+        scene->addModel(model);
     }
     else {
-        CreateSampleShapes(renderer);
+        CreateSampleShapes(scene);
     }
 
     auto x = renderer->isKindOf<vine::Object>();
@@ -187,8 +195,10 @@ int main(int argc, char** argv) {
     std::cout << 1 << std::endl;
 
 #ifdef GLFW_VIEWER
+    renderer->setScene(scene);
     v.run();
 #else
+    renderer->setScene(scene);
     wnd.show();
     app.exec();
 #endif

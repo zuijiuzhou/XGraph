@@ -23,7 +23,8 @@ target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE
     SDL2::SDL2 
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
     ${PCL_LIBRARIES} 
-    ${OpenCV_LIBS} )
+    ${OpenCV_LIBS}
+    opengl32.lib)
 
  message(----------- ${VTK_LIBRARIES})
 

@@ -1,4 +1,4 @@
-#include "WglUtils.hpp"
+#include "WglUtils.h"
 
 typedef HGLRC WINAPI PROC_wglCreateContextAttribsARB(HDC hDC, HGLRC hShareContext, const int* attribList);
 typedef BOOL WINAPI  PROC_wglSwapIntervalEXT(int interval);

@@ -44,15 +44,15 @@ QtViewer::QtViewer()
   : d(new Data()) {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
-    QSurfaceFormat format;
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setSamples(4);
-    format.setVersion(4, 6);
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setColorSpace(QSurfaceFormat::ColorSpace::DefaultColorSpace);
-    format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
-    setFormat(format);
+    // QSurfaceFormat format;
+    // format.setProfile(QSurfaceFormat::CoreProfile);
+    // format.setSamples(4);
+    // format.setVersion(4, 6);
+    // format.setDepthBufferSize(24);
+    // format.setStencilBufferSize(8);
+    // format.setColorSpace(QSurfaceFormat::ColorSpace::DefaultColorSpace);
+    // format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
+    // setFormat(format);
 
     auto viewer   = new Viewer();
     auto renderer = new Renderer();
@@ -77,14 +77,15 @@ Viewer* QtViewer::getViewer() const {
 }
 
 void QtViewer::initializeGL() {
-    static auto ctx            = context();
-    static bool is_glad_loaded = false;
-    if (!is_glad_loaded) {
-        if (gladLoadGLLoader((GLADloadproc)[](const char* name) { return (void*)ctx->getProcAddress(name); }))
-            is_glad_loaded = true;
-        else
-            throw std::exception("GLAD init faild.");
-    }
+    // static auto ctx            = context();
+    // static bool is_glad_loaded = false;
+    // if (!is_glad_loaded) {
+    //     if (gladLoadGLLoader((GLADloadproc)[](const char* name) { return (void*)ctx->getProcAddress(name); }))
+    //         is_glad_loaded = true;
+    //     else
+    //         throw std::exception("GLAD init faild.");
+    // }
+
     d->ctx->realize();
 
     auto cam = d->renderer->getCamera();

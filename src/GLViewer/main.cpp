@@ -11,7 +11,7 @@
 #include "CoordGenerator.h"
 #include "CurveGenerator.h"
 #include "DottedCurve.h"
-#include "Initializer.hpp"
+#include "AppInitializer.h"
 #include "MeshCutterVTK.h"
 #include "MeshLoader.h"
 #include "ModelDefs.h"
@@ -22,12 +22,12 @@ int main(int argc, char** argv) {
 
     using namespace glv;
 
-    osg::setNotifyLevel(osg::DEBUG_FP);
-
-    glutils::Initializer initializer;
+    AppInitializationParameters params;
+    AppInitializer initializer(params);
     initializer.initGlfw();
     initializer.initGlad();
-
+    initializer.initOpenSceneGraph();
+    
     osg::Group* model = nullptr;
     if (argc == 1) {
         model = new osg::Group();

@@ -24,7 +24,6 @@ class GlfwGraphicContext : public GraphicContext {
         if (wnd_) {
             // d->ctx->releaseGLObjects();
             glfwDestroyWindow(wnd_);
-            glfwTerminate();
         }
     }
 
@@ -35,25 +34,16 @@ class GlfwGraphicContext : public GraphicContext {
 
     virtual void realize() {
         if (isRealized()) return;
-        if (glfwInit() == GLFW_FALSE) {
-            throw std::exception("Failed to initialize GLFW.");
-        }
-
         auto w = 800, h = 600;
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         auto wnd = glfwCreateWindow(800, 600, "GlfwViewer", NULL, NULL);
-        glfwMakeContextCurrent(wnd);
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            glfwDestroyWindow(wnd);
-            glfwTerminate();
-            throw std::exception("Failed to initialize GLAD.");
-        }
-
+        
         using GLFWFrameBufferSizeCallback = std::function<void(GLFWwindow*, int, int)>;
         using GLFWKeyCallback = std::function<void(GLFWwindow * window, int key, int scancode, int action, int mods)>;
         using GLFWMouseButtonCallback = std::function<void(GLFWwindow*, int, int, int)>;
