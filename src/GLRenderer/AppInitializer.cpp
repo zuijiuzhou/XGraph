@@ -5,8 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <QSurfaceFormat>
 #include <QApplication>
+#include <QSurfaceFormat>
 
 #include "StdUtils/Environment.h"
 
@@ -15,7 +15,7 @@ namespace {
 
 bool s_is_glfw_initialized = false;
 bool s_is_glad_initialized = false;
-bool s_is_qt_initialized = false;
+bool s_is_qt_initialized   = false;
 
 } // namespace
 
@@ -36,12 +36,11 @@ void AppInitializer::initGlfw() {
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, params_.gl_ver_maj);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, params_.gl_ver_min);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     if (params_.gl_use_core_profile) {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     else {
-
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
     }
 
@@ -71,7 +70,7 @@ void AppInitializer::initGlad() {
 }
 
 void AppInitializer::initQt() {
-    if(isQtInitialized()){
+    if (isQtInitialized()) {
         return;
     }
     QSurfaceFormat format;

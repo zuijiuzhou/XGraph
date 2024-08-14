@@ -4,7 +4,7 @@ namespace glr {
 struct AppInitializationParameters {
     int  gl_ver_maj          = 4;
     int  gl_ver_min          = 6;
-    bool gl_use_core_profile = false;
+    bool gl_use_core_profile = true;
 };
 
 class AppInitializer {

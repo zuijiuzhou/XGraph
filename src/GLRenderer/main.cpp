@@ -154,7 +154,7 @@ int main(int argc, char** argv) {
 
     auto scene = new glr::Scene();
 
-#define GLFW_VIEWER
+#define GLFW_VIEWER_
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;

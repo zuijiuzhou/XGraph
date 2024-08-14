@@ -1,6 +1,7 @@
 #include "ImageLoader.h"
 
 #include <filesystem>
+#include <iostream>
 #include <set>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -47,7 +48,15 @@ Image* ImageLoader::loadFile(const std::string& file) {
         stbi_image_free(data);
         return img;
     }
-
+    else {
+        namespace fs = std::filesystem;
+        if(!fs::exists(file)){
+            std::cerr << "Image load failed(not found):" << file << std::endl;
+        }
+        else{
+            std::cerr << "Image load failed:" << file << std::endl;
+        }
+    }
     return nullptr;
 }
 
