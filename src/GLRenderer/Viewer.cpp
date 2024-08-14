@@ -4,6 +4,7 @@
 
 #include <vine/core/Ptr.h>
 
+#include "Callbacks.h"
 #include "Camera.h"
 #include "CameraManipulator.h"
 #include "GraphicContext.h"
@@ -39,19 +40,32 @@ void Viewer::frame() {
         auto& renderers = kv.second;
         auto  events    = ctx->getEventQueue();
         auto  s         = events->size();
-        if (s > 1) {
-            printf("\n%i", s);
-        }
         while (auto e = events->pop()) {
             for (auto r : renderers) {
-                auto cm = r->getCameraManipulator();
-                if (cm) {
-                    cm->handleEvent(e);
-                }
+                r->handleEvent(e);
             }
         }
     }
-    RenderInfo info(this);
+
+    struct UpdateContextImpl : public UpdateContext {
+
+        virtual Renderer* getCurrentRenderer() const override { return renderer_; }
+        Renderer*         renderer_ = nullptr;
+    };
+
+    UpdateContextImpl update_ctx;
+    for (auto& kv : ctxs) {
+        auto  ctx       = kv.first;
+        auto& renderers = kv.second;
+        auto  events    = ctx->getEventQueue();
+        auto  s         = events->size();
+        for (auto r : renderers) {
+            update_ctx.renderer_ = r;
+            r->update(&update_ctx);
+        }
+    }
+
+    RenderInfo info(d->master_renderer.get());
     for (auto& renderer : d->renderers) {
         if (renderer->getRenderOrder() == Renderer::PRE_RENDER) {
             renderer->render(info);

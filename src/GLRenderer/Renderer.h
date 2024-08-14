@@ -1,7 +1,8 @@
 #pragma once
-#include "BoundingBox.h"
-#include "Object.h"
 #include <vector>
+
+#include "EventReceiver.h"
+
 
 namespace glr {
 class Shader;
@@ -11,8 +12,9 @@ class CameraManipulator;
 class GraphicContext;
 class Scene;
 class RenderInfo;
+class Event;
 
-class Renderer : public Object {
+class Renderer : public EventReceiver {
     VI_OBJECT_META;
 
   public:
@@ -28,16 +30,17 @@ class Renderer : public Object {
     virtual ~Renderer();
 
   public:
-    void    render(RenderInfo& info);
+    void render(RenderInfo& info);
+
     Camera* getCamera() const;
+    void    setCamera(Camera* cam);
 
-    void            setCamera(Camera* cam);
     GraphicContext* getContext() const;
+    void            setContext(GraphicContext* ctx);
 
-    void               setContext(GraphicContext* ctx);
     CameraManipulator* getCameraManipulator() const;
+    void               setCameraManipulator(CameraManipulator* cm);
 
-    void        setCameraManipulator(CameraManipulator* cm);
     void        setRenderOrder(RenderOrder order);
     RenderOrder getRenderOrder() const;
 
@@ -55,6 +58,9 @@ class Renderer : public Object {
 
     void setUseMasterProjectionMatrix(bool val);
     bool getUseMasterProjectionMatrix() const;
+
+    virtual bool handleEvent(Event* e) override;
+    virtual void update(UpdateContext* ctx) override;
 
   private:
     VI_OBJECT_DATA;

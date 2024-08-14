@@ -83,4 +83,10 @@ Event* Event::createResizeEvent(GraphicContext* ctx, int w, int h) {
     e->d->size_height = h;
     return e;
 }
+
+VI_OBJECT_META_IMPL(EventHandler, Object);
+
+bool EventHandler::handle(Event* e){
+    return false;
+}
 } // namespace glr

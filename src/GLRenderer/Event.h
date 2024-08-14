@@ -51,4 +51,11 @@ class Event : public Object {
   private:
     VI_OBJECT_DATA;
 };
+
+class EventHandler : public Object {
+    VI_OBJECT_META;
+
+  public:
+    virtual bool handle(Event* e);
+};
 } // namespace glr

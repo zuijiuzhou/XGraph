@@ -1,21 +1,24 @@
 #include "Model.h"
 
+#include <vector>
 #include <vine/core/Ptr.h>
 
+#include "Callbacks.h"
 #include "Drawable.h"
 #include "StateSet.h"
+#include "Event.h"
 
 namespace glr {
-VI_OBJECT_META_IMPL(Model, Object);
+VI_OBJECT_META_IMPL(Model, EventReceiver);
 
 struct Model::Data {
-    vine::RefPtr<StateSet>                   state_set = nullptr;
-    glm::mat4                                matrix    = glm::mat4(1.0);
-    std::vector<vine::RefPtr<Drawable>>      drawables;
-    std::vector<vine::RefPtr<ModelCallback>> callbacks;
-    BoundingBox                              bb;
-    bool                                     bb_is_dirty = true;
+    vine::RefPtr<StateSet>                    state_set = nullptr;
+    glm::mat4                                 matrix    = glm::mat4(1.0);
+    std::vector<vine::RefPtr<Drawable>>       drawables;
+    BoundingBox                               bb;
+    bool                                      bb_is_dirty = true;
 };
+
 Model::Model()
   : d(new Data()) {
 }
@@ -77,38 +80,10 @@ BoundingBox Model::getBoundingBox() const {
     return d->bb;
 }
 
-void Model::addCallback(ModelCallback* callback) {
-    auto found_at = std::find(d->callbacks.begin(), d->callbacks.end(), callback);
-    if (found_at == d->callbacks.end()) {
-        d->callbacks.push_back(callback);
-    }
+bool Model::handleEvent(Event* e){
+  auto handled =   EventReceiver::handleEvent(e);
+
+  return handled;
 }
 
-void Model::removeCallback(ModelCallback* callback) {
-    auto found_at = std::find(d->callbacks.begin(), d->callbacks.end(), callback);
-    if (found_at != d->callbacks.end()) {
-        d->callbacks.erase(found_at);
-    }
-}
-
-void Model::update(State& ctx) {
-    for (auto& c : d->callbacks) {
-        if (c->getType() == ModelCallback::UPDATE) {
-            (*c)(ctx, this);
-        }
-    }
-}
-
-struct ModelCallback::Data {
-    ModelCallback::Type type;
-};
-
-ModelCallback::ModelCallback(Type t)
-  : d(new Data()) {
-    d->type = t;
-}
-
-ModelCallback::Type ModelCallback::getType() const {
-    return d->type;
-}
 } // namespace glr

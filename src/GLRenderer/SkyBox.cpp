@@ -2,14 +2,17 @@
 
 #include <vine/core/Ptr.h>
 
+#include "Callbacks.h"
 #include "Camera.h"
 #include "CubeMap.h"
 #include "Depth.h"
 #include "Geometry.h"
 #include "Model.h"
+#include "Renderer.h"
 #include "Shader.h"
 #include "State.h"
 #include "StateSet.h"
+#include "Uniform.h"
 
 namespace glr {
 namespace {
@@ -38,20 +41,24 @@ void main(){
 }
         )";
 
-struct SkyBoxUpdateCallback : public ModelCallback {
-    SkyBoxUpdateCallback()
-      : ModelCallback(UPDATE) {}
-    virtual void operator()(State& state, Model* model) override {
-        auto shader = state.getCurrentShader();
-        auto cam    = state.getCurrentCamera();
-        auto mat_v  = cam->getViewMatrix();
-        mat_v[3]    = glm::vec4(0.f, 0.f, 0.f, 1.f);
+struct SkyBoxUpdateCallback : public UpdateCallback {
+    SkyBoxUpdateCallback(Uniform* uniform) { uniform_ = uniform; }
+    virtual void operator()(Object* obj, UpdateContext* ctx) override {
+        auto model    = obj->cast<Model>();
+        auto stateset = model->getOrCreateStateSet();
+        auto shader   = stateset->getShader();
+        auto cam      = ctx->getCurrentRenderer()->getCamera();
+
+        auto mat_v = cam->getViewMatrix();
+        mat_v[3]   = glm::vec4(0.f, 0.f, 0.f, 1.f);
         glm::mat4 m1(1.);
         m1         = glm::rotate(m1, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
         auto mat_p = cam->getProjectionMatrix();
 
-        shader->set(state, "matrix_mvp_", mat_p * mat_v * m1);
+        uniform_->setMat4x4(mat_p * mat_v * m1);
     }
+
+    Uniform* uniform_ = nullptr;
 };
 } // namespace
 
@@ -60,9 +67,13 @@ Model* createSkyBox(CubeMap* tex) {
     cube->addTexture(0, "tex", tex);
     auto shader = new Shader(sky_box_vs, {}, sky_box_fs);
     auto model  = new Model();
+
+    auto uniform = new Uniform("matrix_mvp_", glm::mat4x4());
+
     model->addDrawable(cube);
-    model->addCallback(new SkyBoxUpdateCallback());
+    model->addUpdateCallback(new SkyBoxUpdateCallback(uniform));
     model->getOrCreateStateSet()->setShader(shader);
+    model->getOrCreateStateSet()->setAttribute(uniform);
     model->getOrCreateStateSet()->setAttribute(new Depth(1, 1, Depth::LEQUAL, true));
     return model;
 }

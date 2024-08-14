@@ -1,24 +1,24 @@
 #include "RenderInfo.h"
 
-#include "Viewer.h"
+#include "Renderer.h"
 
 namespace glr {
 VI_OBJECT_META_IMPL(RenderInfo, Object);
 
 struct RenderInfo::Data {
-    vine::RefPtr<Viewer> viewer;
+    vine::RefPtr<Renderer> master_renderer;
 };
 
-RenderInfo::RenderInfo(Viewer* viewer)
+RenderInfo::RenderInfo(Renderer* master_renderer)
   : d(new Data()) {
-    d->viewer = viewer;
+    d->master_renderer = master_renderer;
 }
 
 RenderInfo::~RenderInfo() {
     delete d;
 }
 
-Viewer* RenderInfo::getViewer() const {
-    return d->viewer.get();
+Renderer* RenderInfo::getMasterRenderer() const {
+    return d->master_renderer.get();
 }
 } // namespace glr

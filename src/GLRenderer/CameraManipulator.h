@@ -26,7 +26,7 @@ class CameraManipulator : public Object {
     };
 
   public:
-    virtual void handleEvent(Event* e) = 0;
+    virtual bool handleEvent(Event* e) = 0;
 
     virtual ProjectionType getProjectionType() const              = 0;
     virtual void           setProjectionType(ProjectionType type) = 0;
@@ -48,7 +48,7 @@ class StandardCameraManipulator final : public CameraManipulator {
     virtual ~StandardCameraManipulator();
 
   public:
-    virtual void handleEvent(Event* e) override;
+    virtual bool handleEvent(Event* e) override;
 
     virtual ProjectionType getProjectionType() const override;
     virtual void           setProjectionType(ProjectionType type) override;
@@ -60,6 +60,9 @@ class StandardCameraManipulator final : public CameraManipulator {
     virtual void setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) override;
 
     virtual void setViewMode(ViewMode mode) override;
+
+  protected:
+    virtual bool onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh);
 
   private:
     virtual glm::mat4 computeViewMatrix() const;

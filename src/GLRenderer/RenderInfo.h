@@ -3,19 +3,18 @@
 
 namespace glr {
 
-class Scene;
-class Viewer;
+class Renderer;
 
 class RenderInfo : public Object {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(RenderInfo);
 
   public:
-    RenderInfo(Viewer* viewer);
+    RenderInfo(Renderer* master_renderer);
     virtual ~RenderInfo();
 
   public:
-    Viewer* getViewer() const;
+    Renderer* getMasterRenderer() const;
 
   private:
     VI_OBJECT_DATA;

@@ -5,7 +5,7 @@
 #include "Model.h"
 
 namespace glr {
-VI_OBJECT_META_IMPL(Scene, Object);
+VI_OBJECT_META_IMPL(Scene, EventReceiver);
 
 struct Scene::Data {
     std::vector<vine::RefPtr<Model>> models;
@@ -33,4 +33,24 @@ size_t Scene::getNbModels() const {
 Model* Scene::getModelAt(size_t i) const {
     return d->models.at(i).get();
 }
+
+
+bool Scene::handleEvent(Event* e) {
+    auto handled = EventReceiver::handleEvent(e);
+
+    for (auto& model : d->models) {
+        handled |= model->handleEvent(e);
+        if (handled) break;
+    }
+
+    return handled;
+}
+
+void Scene::update(UpdateContext* ctx) {
+    EventReceiver::update(ctx);
+    for (auto& model : d->models) {
+        model->update(ctx);
+    }
+}
+
 } // namespace glr

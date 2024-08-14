@@ -108,6 +108,7 @@ void Camera::apply() const {
 void Camera::applyViewport() const {
     glViewport(vp_x_, vp_y_, vp_w_, vp_h_);
     glScissor(vp_x_, vp_y_, vp_w_, vp_h_);
+    glEnable(GL_SCISSOR_TEST);
 }
 
 void Camera::applyAllExceptViewport() const {

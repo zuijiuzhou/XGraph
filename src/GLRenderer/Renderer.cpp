@@ -1,6 +1,8 @@
 #include "Renderer.h"
-#include <functional>
+
 #include <glad/glad.h>
+
+#include <functional>
 #include <iostream>
 
 #include <vine/core/Ptr.h>
@@ -82,8 +84,7 @@ void Renderer::render(RenderInfo& info) {
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
 
-    auto viewer          = info.getViewer();
-    auto master_renderer = viewer->getMasterRenderer();
+    auto master_renderer = info.getMasterRenderer();
     auto master_cam      = master_renderer->getCamera();
 
 
@@ -115,7 +116,7 @@ void Renderer::render(RenderInfo& info) {
         if (stateset) {
             state.applyShader(stateset);
         }
-        model->update(state);
+
         auto matrix_m = model->getMatrix();
         if (stateset) {
             state.applyAttributes(stateset);
@@ -184,5 +185,30 @@ void Renderer::setUseMasterProjectionMatrix(bool val) {
 
 bool Renderer::getUseMasterProjectionMatrix() const {
     return d->use_master_proj_matrix;
+}
+
+bool Renderer::handleEvent(Event* e) {
+    auto handled = EventReceiver::handleEvent(e);
+
+    if (false == handled) {
+        if (d->cm.hasValue()) {
+            handled |= d->cm->handleEvent(e);
+        }
+    }
+
+    if(false == handled){
+        if(d->scene.hasValue()){
+            handled |= d->scene->handleEvent(e);
+        }
+    }
+
+    return handled;
+}
+
+void Renderer::update(UpdateContext* ctx) {
+    EventReceiver::update(ctx);
+    if(d->scene.hasValue()){
+        d->scene->update(ctx);
+    }
 }
 } // namespace glr

@@ -15,6 +15,7 @@ struct StandardCameraManipulator::Data {
     bool                 is_pan_started         = false;
     bool                 is_cursor_move_started = false;
     int                  width = 1, height = 1.;
+    int                  vx = 0, vy = 0, vw = 1, vh = 1;
     double               near = 1., far = 1000., fov = 30.;
     ProjectionType       proj_type = Perspective;
     glm::vec2            prev_cursor_pt;
@@ -30,19 +31,89 @@ StandardCameraManipulator::~StandardCameraManipulator() {
     delete d;
 }
 
-void StandardCameraManipulator::handleEvent(Event* e) {
+bool StandardCameraManipulator::handleEvent(Event* e) {
     switch (e->getType()) {
-    case EventType::MousePress: handleMousePressed(e->getMouseButton(), e->getMouseX(), e->getMouseY()); break;
-
-    case EventType::MouseMove: handleMouseMoved(e->getMouseX(), e->getMouseY()); break;
-
-    case EventType::MouseRelease: handleMouseReleased(e->getMouseButton(), e->getMouseX(), e->getMouseY()); break;
-
-    case EventType::MouseWheel: handleMouseScrolled(e->getMouseDelta()); break;
-
-    case EventType::Resize: handleResized(e->getWidth(), e->getHeight()); break;
+    case EventType::MousePress:
+    {
+        handleMousePressed(e->getMouseButton(), e->getMouseX(), e->getMouseY());
+        break;
+    }
+    case EventType::MouseMove:
+    {
+        handleMouseMoved(e->getMouseX(), e->getMouseY());
+        break;
+    }
+    case EventType::MouseRelease:
+    {
+        handleMouseReleased(e->getMouseButton(), e->getMouseX(), e->getMouseY());
+        break;
+    }
+    case EventType::MouseWheel:
+    {
+        handleMouseScrolled(e->getMouseDelta());
+        break;
+    }
+    case EventType::Resize:
+    {
+        handleResized(e->getWidth(), e->getHeight());
+        break;
+    }
     default: break;
     }
+    return false;
+}
+
+CameraManipulator::ProjectionType StandardCameraManipulator::getProjectionType() const {
+    return d->proj_type;
+};
+
+void StandardCameraManipulator::setProjectionType(ProjectionType type) {
+    d->proj_type = type;
+};
+
+double StandardCameraManipulator::getFov() const {
+    return d->fov;
+};
+
+void StandardCameraManipulator::setFov(double fov) {
+    d->fov = fov;
+};
+
+void StandardCameraManipulator::getViewAsLookAt(glm::vec3& eye, glm::vec3& target, glm::vec3& up) {
+    eye    = d->eye;
+    target = d->target;
+    up     = d->up;
+};
+
+void StandardCameraManipulator::setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) {
+    d->eye    = eye;
+    d->target = target;
+    d->up     = up;
+    d->camera->setViewMatrix(computeViewMatrix());
+};
+
+void StandardCameraManipulator::setViewMode(ViewMode mode) {
+
+};
+
+bool StandardCameraManipulator::onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh)
+{
+    vx = 0;
+    vy = 0;
+    vw = w;
+    vh = h;
+    return true;
+}
+
+glm::mat4 StandardCameraManipulator::computeViewMatrix() const {
+    return glm::lookAt<float>(d->eye, d->target, d->up);
+}
+
+glm::mat4 StandardCameraManipulator::computeProjectionMatrix() const {
+    if (d->proj_type == Perspective)
+        return glm::perspective<double>(glm::radians<double>(d->fov), ((double)d->vw) / d->vh, d->near, d->far);
+    else
+        return glm::ortho<double>(-d->vw / 2., d->vw / 2., -d->vh / 2., d->vh / 2.);
 }
 
 void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int y) {
@@ -119,51 +190,16 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
 void StandardCameraManipulator::handleResized(int w, int h) {
     d->width  = w;
     d->height = h;
-    d->camera->setViewport(0, 0, w, h);
-    d->camera->setProjectionMatrix(computeProjectionMatrix());
-}
 
-CameraManipulator::ProjectionType StandardCameraManipulator::getProjectionType() const {
-    return d->proj_type;
-};
+    int vx = 0, vy = 0, vw = w, vh = h;
 
-void StandardCameraManipulator::setProjectionType(ProjectionType type) {
-    d->proj_type = type;
-};
-
-double StandardCameraManipulator::getFov() const {
-    return d->fov;
-};
-
-void StandardCameraManipulator::setFov(double fov) {
-    d->fov = fov;
-};
-
-void StandardCameraManipulator::getViewAsLookAt(glm::vec3& eye, glm::vec3& target, glm::vec3& up) {
-    eye    = d->eye;
-    target = d->target;
-    up     = d->up;
-};
-
-void StandardCameraManipulator::setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) {
-    d->eye    = eye;
-    d->target = target;
-    d->up     = up;
-    d->camera->setViewMatrix(computeViewMatrix());
-};
-
-void StandardCameraManipulator::setViewMode(ViewMode mode) {
-
-};
-
-glm::mat4 StandardCameraManipulator::computeViewMatrix() const {
-    return glm::lookAt<float>(d->eye, d->target, d->up);
-}
-
-glm::mat4 StandardCameraManipulator::computeProjectionMatrix() const {
-    if (d->proj_type == Perspective)
-        return glm::perspective<double>(glm::radians<double>(d->fov), ((double)d->width) / d->height, d->near, d->far);
-    else
-        return glm::ortho<double>(-d->width / 2., d->width / 2., -d->height / 2., d->height / 2.);
+    if(onUpdateViewport(w, h, vx, vy, vw, vh)){
+        d->vx = vx;
+        d->vy = vy;
+        d->vw = vw;
+        d->vh = vh;
+        d->camera->setViewport(vx, vy, vw, vh);
+        d->camera->setProjectionMatrix(computeProjectionMatrix());
+    }
 }
 } // namespace glr

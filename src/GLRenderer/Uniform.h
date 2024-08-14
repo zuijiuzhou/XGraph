@@ -1,6 +1,8 @@
 #pragma once
 #include "StateAttribute.h"
 #include <string>
+#include <glm/mat4x4.hpp>
+
 namespace glr {
 class Uniform : public StateAttribute {
     VI_OBJECT_META;
@@ -10,13 +12,15 @@ class Uniform : public StateAttribute {
     {
         UNDEFINED = 0,
         BOOL,
-        INT
+        INT,
+        MAT4X4
     };
 
   public:
     Uniform();
     Uniform(const std::string& name, int val);
     Uniform(const std::string& name, bool val);
+    Uniform(const std::string& name, const glm::mat4x4& mat);
 
     virtual ~Uniform();
 
@@ -24,6 +28,8 @@ class Uniform : public StateAttribute {
     virtual void apply(State& state) const override;
 
     virtual Type getType() const override;
+
+    void setMat4x4(const glm::mat4x4& mat);
 
   private:
     VI_OBJECT_DATA;

@@ -1,8 +1,10 @@
 #pragma once
-#include "Object.h"
+
+#include "EventReceiver.h"
+
 namespace glr {
 class Model;
-class Scene : public Object {
+class Scene : public EventReceiver {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(Scene);
 
@@ -16,6 +18,9 @@ class Scene : public Object {
     size_t getNbModels() const;
 
     Model* getModelAt(size_t i) const;
+
+    virtual bool handleEvent(Event* e) override;
+    virtual void update(UpdateContext* ctx) override;
 
   private:
     VI_OBJECT_DATA;
