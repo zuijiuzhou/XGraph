@@ -1,9 +1,11 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "GLObject.h"
 
 namespace glr {
-class Buffer : public GLObject {
+class GLRENDERER_API Buffer : public GLObject {
     VI_OBJECT_META;
 
   public:

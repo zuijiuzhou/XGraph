@@ -1,11 +1,14 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <string>
 #include <vector>
 
 namespace glr {
 
 class Model;
-class MeshLoader {
+class GLRENDERER_API MeshLoader {
   public:
     Model* loadFile(const std::string& file);
 

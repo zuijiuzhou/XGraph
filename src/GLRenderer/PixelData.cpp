@@ -1,4 +1,3 @@
-
 #include "PixelData.h"
 
 #include <map>

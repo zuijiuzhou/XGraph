@@ -1,9 +1,13 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
+
 namespace glr {
 class Renderer;
 class Scene;
-class Viewer : public Object {
+class GLRENDERER_API Viewer : public Object {
     VI_OBJECT_META;
 
   public:

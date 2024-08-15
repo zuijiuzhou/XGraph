@@ -1,11 +1,15 @@
 #pragma once
-#include "Renderer.h"
+
+#include "glrenderer_global.h"
+
 #include <glad/glad.h>
+
+#include "Renderer.h"
 
 namespace glr {
 class Renderer;
 class Texture;
-class RttRenderer : public Renderer {
+class GLRENDERER_API RttRenderer : public Renderer {
     VI_OBJECT_META;
 
   public:

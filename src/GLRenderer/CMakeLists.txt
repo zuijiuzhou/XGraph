@@ -14,6 +14,8 @@ file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 add_executable(${CURRENT_TARGET_NAME} ${SRC_FILES} ${HEADER_FILES} ${GLAD_SRC_FILES})
 
+target_compile_definitions(${CURRENT_TARGET_NAME} PRIVATE GLRENDERER_LIB)
+
 target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE
     StdUtils 
     vi::Core vi::Ge 

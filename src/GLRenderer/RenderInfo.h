@@ -1,11 +1,14 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
 
 namespace glr {
 
 class Renderer;
 
-class RenderInfo : public Object {
+class GLRENDERER_API RenderInfo : public Object {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(RenderInfo);
 

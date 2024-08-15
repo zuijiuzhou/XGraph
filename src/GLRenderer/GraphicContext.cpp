@@ -1,6 +1,7 @@
 #include "GraphicContext.h"
 
 #include <queue>
+
 #include <vine/core/Ptr.h>
 
 #include "GLVersion.h"

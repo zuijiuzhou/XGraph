@@ -1,9 +1,9 @@
 #include "Renderer.h"
 
-#include <glad/glad.h>
-
 #include <functional>
 #include <iostream>
+
+#include <glad/glad.h>
 
 #include <vine/core/Ptr.h>
 

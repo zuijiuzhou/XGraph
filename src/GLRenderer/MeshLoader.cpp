@@ -1,10 +1,13 @@
 #include "MeshLoader.h"
-#include "Geometry.h"
-#include "Model.h"
+
+#include <filesystem>
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <filesystem>
+
+#include "Geometry.h"
+#include "Model.h"
 
 namespace glr {
 

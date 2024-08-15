@@ -1,13 +1,19 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
+#include <glad/glad.h>
+
+#include <glm/mat4x4.hpp>
+
 #include "BoundingBox.h"
 #include "Object.h"
-#include <glad/glad.h>
-#include <glm/mat4x4.hpp>
+
 namespace glr {
 class Shader;
 class StateSet;
 class State;
-class Drawable : public Object {
+class GLRENDERER_API Drawable : public Object {
     VI_OBJECT_META;
 
   public:

@@ -1,6 +1,9 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 namespace glr {
-class GLFormat {
+class GLRENDERER_API GLFormat {
     int major_version;
 };
 } // namespace glr

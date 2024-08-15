@@ -1,9 +1,11 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "PixelData.h"
 
 namespace glr {
-class Texture : public PixelData {
+class GLRENDERER_API Texture : public PixelData {
     VI_OBJECT_META;
 
   public:

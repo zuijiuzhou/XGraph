@@ -1,4 +1,5 @@
 #include "PointCloudLoader.h"
+
 #include <algorithm>
 #include <filesystem>
 #include <limits>

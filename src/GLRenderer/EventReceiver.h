@@ -1,5 +1,7 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "Object.h"
 
 namespace glr {
@@ -8,7 +10,7 @@ class EventHandler;
 class UpdateCallback;
 class UpdateContext;
 
-class EventReceiver : public Object {
+class GLRENDERER_API EventReceiver : public Object {
     VI_OBJECT_META;
 
   public:

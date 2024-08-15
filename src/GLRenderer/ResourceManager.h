@@ -1,11 +1,14 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <string>
 
 namespace glr {
 class Shader;
 class CubeMap;
 // 暂不考虑多上下文共享资源
-class ResourceManager {
+class GLRENDERER_API ResourceManager {
   public:
     enum InternalShader
     {

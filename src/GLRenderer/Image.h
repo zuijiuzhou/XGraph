@@ -1,10 +1,13 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <string>
 
 #include "Object.h"
 
 namespace glr {
-class Image : public Object {
+class GLRENDERER_API Image : public Object {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(Image);
 

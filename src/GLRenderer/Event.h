@@ -1,5 +1,9 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
+
 namespace glr {
 class GraphicContext;
 
@@ -25,7 +29,7 @@ enum Key
 
 };
 
-class Event : public Object {
+class GLRENDERER_API Event : public Object {
     VI_OBJECT_META;
 
   private:
@@ -52,7 +56,7 @@ class Event : public Object {
     VI_OBJECT_DATA;
 };
 
-class EventHandler : public Object {
+class GLRENDERER_API EventHandler : public Object {
     VI_OBJECT_META;
 
   public:

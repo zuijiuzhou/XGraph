@@ -1,11 +1,14 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
 #include "StateAttribute.h"
 
 namespace glr {
 class StateAttribute;
 class Shader;
-class StateSet : public Object {
+class GLRENDERER_API StateSet : public Object {
     VI_OBJECT_META;
 
   public:

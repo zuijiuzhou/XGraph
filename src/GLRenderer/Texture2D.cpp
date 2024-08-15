@@ -1,6 +1,5 @@
 #include "Texture2D.h"
 
-#include <stb_image.h>
 #include <vine/core/Ptr.h>
 
 #include "Image.h"

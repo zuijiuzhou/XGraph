@@ -1,7 +1,9 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 namespace glr {
-struct GLVersionInfo {
+struct GLRENDERER_API GLVersionInfo {
     int major;
     int minor;
 
@@ -12,7 +14,7 @@ struct GLVersionInfo {
     bool npotSupported;
 };
 
-bool queryCurrentGLVersion(GLVersionInfo& vi);
+GLRENDERER_API bool queryCurrentGLVersion(GLVersionInfo& vi);
 
-bool queryDefaultGLVersion(GLVersionInfo& vi);
+GLRENDERER_API bool queryDefaultGLVersion(GLVersionInfo& vi);
 } // namespace glr

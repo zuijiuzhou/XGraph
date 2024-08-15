@@ -1,8 +1,13 @@
 #pragma once
-#include "StateAttribute.h"
+
+#include "glrenderer_global.h"
+
 #include <glm/vec4.hpp>
+
+#include "StateAttribute.h"
+
 namespace glr {
-class Material : public StateAttribute {
+class GLRENDERER_API Material : public StateAttribute {
     VI_OBJECT_META;
 
   public:

@@ -1,4 +1,5 @@
 #include "Event.h"
+
 #include "GraphicContext.h"
 
 namespace glr {

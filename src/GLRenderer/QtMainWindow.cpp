@@ -1,4 +1,5 @@
 #include "QtMainWindow.h"
+
 #include "QtViewer.h"
 
 namespace glr {

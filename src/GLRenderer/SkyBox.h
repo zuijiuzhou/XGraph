@@ -1,6 +1,9 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 namespace glr {
 class Model;
 class CubeMap;
-Model* createSkyBox(CubeMap* tex);
+GLRENDERER_API Model* createSkyBox(CubeMap* tex);
 } // namespace glr

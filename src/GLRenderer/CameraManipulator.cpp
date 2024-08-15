@@ -1,9 +1,10 @@
 #include "CameraManipulator.h"
 
+#include <functional>
+
 #include <vine/core/Ptr.h>
 
 #include "Camera.h"
-#include <functional>
 
 namespace glr {
 VI_OBJECT_META_IMPL(CameraManipulator, Object);

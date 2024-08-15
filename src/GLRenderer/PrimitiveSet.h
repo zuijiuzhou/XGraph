@@ -1,10 +1,15 @@
 #pragma once
-#include "Array.h"
+
+#include "glrenderer_global.h"
+
 #include <glad/glad.h>
+
 #include <vector>
 
+#include "Array.h"
+
 namespace glr {
-class PrimitiveSet : public Object {
+class GLRENDERER_API PrimitiveSet : public Object {
     VI_OBJECT_META;
 
   public:
@@ -40,7 +45,7 @@ class PrimitiveSet : public Object {
     virtual void draw() = 0;
 };
 
-class DrawArrays : public PrimitiveSet {
+class GLRENDERER_API DrawArrays : public PrimitiveSet {
     VI_OBJECT_META;
 
   public:
@@ -62,7 +67,7 @@ class DrawArrays : public PrimitiveSet {
     GLsizei count_  = 0;
 };
 
-class DrawElementsUInt : public PrimitiveSet {
+class GLRENDERER_API DrawElementsUInt : public PrimitiveSet {
     VI_OBJECT_META;
 
   public:

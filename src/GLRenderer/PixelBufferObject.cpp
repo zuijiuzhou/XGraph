@@ -1,4 +1,3 @@
-
 #include "PixelBufferObject.h"
 
 #include <map>

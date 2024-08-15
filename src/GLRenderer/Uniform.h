@@ -1,10 +1,14 @@
 #pragma once
-#include "StateAttribute.h"
+#include "glrenderer_global.h"
+
 #include <string>
+
 #include <glm/mat4x4.hpp>
 
+#include "StateAttribute.h"
+
 namespace glr {
-class Uniform : public StateAttribute {
+class GLRENDERER_API Uniform : public StateAttribute {
     VI_OBJECT_META;
 
   public:

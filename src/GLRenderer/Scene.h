@@ -1,10 +1,12 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "EventReceiver.h"
 
 namespace glr {
 class Model;
-class Scene : public EventReceiver {
+class GLRENDERER_API Scene : public EventReceiver {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(Scene);
 

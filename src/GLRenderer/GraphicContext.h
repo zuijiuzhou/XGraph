@@ -1,4 +1,7 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Event.h"
 #include "Object.h"
 
@@ -6,7 +9,7 @@ namespace glr {
 class State;
 class GLVersionInfo;
 
-class GraphicContext : public Object {
+class GLRENDERER_API GraphicContext : public Object {
     VI_OBJECT_META;
 
     friend class Renderer;

@@ -1,9 +1,12 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <QMainWindow>
-#
+
 namespace glr {
 class QtViewer;
-class QtMainWindow : public QMainWindow {
+class GLRENDERER_API QtMainWindow : public QMainWindow {
   public:
     QtMainWindow();
     virtual ~QtMainWindow();

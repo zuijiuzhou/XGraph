@@ -1,10 +1,11 @@
 #pragma once
-#include <glad/glad.h>
+
+#include "glrenderer_global.h"
 
 namespace glr {
 class Viewer;
 
-class GlfwViewer {
+class GLRENDERER_API GlfwViewer {
   public:
     GlfwViewer();
     virtual ~GlfwViewer();

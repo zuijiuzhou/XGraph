@@ -1,13 +1,15 @@
 #pragma once
 
-#include "Texture.h"
+#include "glrenderer_global.h"
+
 #include <string>
-#include <vector>
+
+#include "Texture.h"
 
 namespace glr {
 class Image;
 
-class Texture2D : public Texture {
+class GLRENDERER_API Texture2D : public Texture {
     VI_OBJECT_META;
 
   public:

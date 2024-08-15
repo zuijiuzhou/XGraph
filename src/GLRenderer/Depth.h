@@ -1,10 +1,13 @@
-
 #pragma once
 
-#include "StateAttribute.h"
+#include "glrenderer_global.h"
+
 #include <glad/glad.h>
+
+#include "StateAttribute.h"
+
 namespace glr {
-class Depth : public StateAttribute {
+class GLRENDERER_API Depth : public StateAttribute {
     VI_OBJECT_META;
 
   public:

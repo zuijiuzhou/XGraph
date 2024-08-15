@@ -1,11 +1,15 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
+#include <glm/mat4x4.hpp>
+
 #include "Event.h"
 #include "Object.h"
-#include <glm/mat4x4.hpp>
 
 namespace glr {
 class Camera;
-class CameraManipulator : public Object {
+class GLRENDERER_API CameraManipulator : public Object {
     VI_OBJECT_META;
 
   public:
@@ -40,7 +44,7 @@ class CameraManipulator : public Object {
     virtual void setViewMode(ViewMode mode) = 0;
 };
 
-class StandardCameraManipulator final : public CameraManipulator {
+class GLRENDERER_API StandardCameraManipulator final : public CameraManipulator {
     VI_OBJECT_META;
 
   public:

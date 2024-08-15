@@ -1,9 +1,13 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
+
 namespace glr {
 class StateSet;
 class State;
-class StateAttribute : public Object {
+class GLRENDERER_API StateAttribute : public Object {
     VI_OBJECT_META;
 
     friend class State;

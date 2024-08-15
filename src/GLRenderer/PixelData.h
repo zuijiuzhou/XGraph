@@ -1,9 +1,11 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "Buffer.h"
 
 namespace glr {
-class PixelData : public Buffer {
+class GLRENDERER_API PixelData : public Buffer {
     VI_OBJECT_META;
 
   public:

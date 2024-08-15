@@ -1,9 +1,12 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <string>
 
 namespace glr {
 class Model;
-class PointCloudLoader {
+class GLRENDERER_API PointCloudLoader {
   public:
     Model* load(const std::string& file);
 

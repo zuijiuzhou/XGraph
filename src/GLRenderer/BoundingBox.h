@@ -1,7 +1,11 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <glm/vec3.hpp>
+
 namespace glr {
-class BoundingBox {
+class GLRENDERER_API BoundingBox {
   public:
     BoundingBox();
     BoundingBox(double xmin, double ymin, double zmin, double xmax, double ymax, double zmax);

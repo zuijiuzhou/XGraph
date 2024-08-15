@@ -1,7 +1,9 @@
 #include "ResourceManager.h"
+
 #include <map>
 
 #include <vine/core/Ptr.h>
+
 #include "StdUtils/Resources.h"
 
 #include "CubeMap.h"

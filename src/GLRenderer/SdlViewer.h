@@ -1,10 +1,11 @@
 #pragma once
-#include <glad/glad.h>
+
+#include "glrenderer_global.h"
 
 namespace glr {
 class Viewer;
 
-class SdlViewer {
+class GLRENDERER_API SdlViewer {
   public:
     SdlViewer();
     virtual ~SdlViewer();

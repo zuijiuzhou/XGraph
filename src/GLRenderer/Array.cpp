@@ -1,7 +1,4 @@
-
 #include "Array.h"
-
-#include "stdrenderer_global.h"
 
 namespace glr {
 

@@ -1,8 +1,10 @@
 
 #include "Buffer.h"
+
+#include <map>
+
 #include "GraphicContext.h"
 #include "State.h"
-#include <map>
 
 namespace glr {
 VI_OBJECT_META_IMPL(Buffer, GLObject);

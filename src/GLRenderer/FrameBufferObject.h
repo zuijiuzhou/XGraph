@@ -1,12 +1,14 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Buffer.h"
-#include "GLObject.h"
 
 namespace glr {
 class RenderBuffer;
 class Texture;
 
-class FrameBufferObject : public Buffer {
+class GLRENDERER_API FrameBufferObject : public Buffer {
     VI_OBJECT_META;
 
   public:

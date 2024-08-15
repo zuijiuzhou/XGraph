@@ -1,14 +1,17 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
+#include <string>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <string>
 
 #include "GLObject.h"
 
 namespace glr {
-class Shader : public GLObject {
+class GLRENDERER_API Shader : public GLObject {
     VI_OBJECT_META;
 
   public:

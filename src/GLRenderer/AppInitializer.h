@@ -1,13 +1,15 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 namespace glr {
-struct AppInitializationParameters {
+struct GLRENDERER_API AppInitializationParameters {
     int  gl_ver_maj          = 4;
     int  gl_ver_min          = 6;
     bool gl_use_core_profile = true;
 };
 
-class AppInitializer {
+class GLRENDERER_API AppInitializer {
   public:
     AppInitializer(const AppInitializationParameters& params);
 

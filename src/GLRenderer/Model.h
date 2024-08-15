@@ -1,10 +1,12 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <glm/mat4x4.hpp>
 
 #include "BoundingBox.h"
-#include "Object.h"
-
 #include "EventReceiver.h"
+#include "Object.h"
 
 namespace glr {
 class Drawable;
@@ -13,7 +15,7 @@ class State;
 class UpdateCallback;
 class Event;
 
-class Model : public EventReceiver {
+class GLRENDERER_API Model : public EventReceiver {
     VI_OBJECT_META;
 
   public:

@@ -1,9 +1,12 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <QOpenGLWidget>
 
 namespace glr {
 class Viewer;
-class QtViewer : public QOpenGLWidget {
+class GLRENDERER_API QtViewer : public QOpenGLWidget {
   public:
     QtViewer();
     virtual ~QtViewer();

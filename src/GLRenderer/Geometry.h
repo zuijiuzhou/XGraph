@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include "Drawable.h"
+
+#include "glrenderer_global.h"
+
 #include <map>
 #include <set>
 #include <string>
@@ -8,6 +10,7 @@
 #include <vine/ge/ge_global.h>
 
 #include "Arrays.h"
+#include "Drawable.h"
 #include "PrimitiveSet.h"
 
 VI_GE_NS_BEGIN
@@ -18,7 +21,7 @@ namespace glr {
 class Texture;
 class CubeMap;
 
-class Geometry : public Drawable {
+class GLRENDERER_API Geometry : public Drawable {
     VI_OBJECT_META;
 
   public:

@@ -1,8 +1,10 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <vector>
 
 #include "EventReceiver.h"
-
 
 namespace glr {
 class Shader;
@@ -14,7 +16,7 @@ class Scene;
 class RenderInfo;
 class Event;
 
-class Renderer : public EventReceiver {
+class GLRENDERER_API Renderer : public EventReceiver {
     VI_OBJECT_META;
 
   public:

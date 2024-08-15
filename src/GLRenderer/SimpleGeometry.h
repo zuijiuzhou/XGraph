@@ -1,7 +1,11 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Geometry.h"
+
 namespace glr {
-class SimpleGeometry : public Geometry {
+class GLRENDERER_API SimpleGeometry : public Geometry {
     VI_OBJECT_META;
 
   public:

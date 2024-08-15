@@ -1,4 +1,5 @@
 #include "StateSet.h"
+
 #include <vector>
 
 #include <vine/core/Ptr.h>

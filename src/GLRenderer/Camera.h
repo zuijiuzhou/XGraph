@@ -1,11 +1,16 @@
 #pragma once
-#include "Object.h"
+
+#include "glrenderer_global.h"
+
 #include <glad/glad.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Object.h"
+
 namespace glr {
-class Camera : public Object {
+class GLRENDERER_API Camera : public Object {
     VI_OBJECT_META;
 
   public:

@@ -1,4 +1,7 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include <string>
 #include <vector>
 
@@ -6,7 +9,7 @@ namespace glr {
 
 class Image;
 class Model;
-class ImageLoader {
+class GLRENDERER_API ImageLoader {
 
   public:
     ImageLoader();

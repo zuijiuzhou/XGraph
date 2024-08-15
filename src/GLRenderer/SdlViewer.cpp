@@ -1,10 +1,14 @@
 #include "SdlViewer.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_syswm.h>
+
 #include <functional>
-#include <glm/glm.hpp>
 #include <iostream>
 #include <memory>
+
+#include <glad/glad.h>
+
+#include <glm/glm.hpp>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
 
 #include <vine/core/Ptr.h>
 

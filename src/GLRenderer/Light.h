@@ -1,12 +1,17 @@
 #pragma once
-#include "StateAttribute.h"
+
+#include "glrenderer_global.h"
+
+#include <vector>
+
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
-#include <vector>
+
+#include "StateAttribute.h"
 
 namespace glr {
 class GraphicContext;
-class Light : public Object {
+class GLRENDERER_API Light : public Object {
     VI_OBJECT_META;
 
   public:
@@ -55,7 +60,7 @@ class Light : public Object {
     bool      head_ = false;
 };
 
-class Lights : public StateAttribute {
+class GLRENDERER_API Lights : public StateAttribute {
   public:
     void addLight(Light* l);
 

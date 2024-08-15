@@ -1,16 +1,18 @@
 #pragma once
 
-#include "Array.h"
-#include "stdrenderer_global.h"
+#include "glrenderer_global.h"
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <vector>
 
+#include "Array.h"
+
 namespace glr {
 
 #define DEF_ARR(N, T)                                                                                                  \
-    class N##Array : public Array, public std::vector<T> {                                                             \
+    class GLRENDERER_API N##Array : public Array, public std::vector<T> {                                                             \
         VI_OBJECT_META                                                                                                 \
       public:                                                                                                          \
         using item_type = T;                                                                                           \

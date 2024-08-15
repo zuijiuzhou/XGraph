@@ -1,4 +1,7 @@
 #pragma once
+
+#include "glrenderer_global.h"
+
 #include "Object.h"
 
 namespace glr {
@@ -8,7 +11,7 @@ class Camera;
 class GraphicContext;
 class Renderer;
 class StateSet;
-class State : public Object {
+class GLRENDERER_API State : public Object {
     VI_OBJECT_META;
 
     friend class Renderer;

@@ -1,10 +1,14 @@
 #pragma once
-#include "Object.h"
+
+#include "glrenderer_global.h"
+
 #include <glad/glad.h>
+
+#include "Object.h"
 
 namespace glr {
 class State;
-class GLObject : public Object {
+class GLRENDERER_API GLObject : public Object {
     friend class State;
 
     VI_OBJECT_META;

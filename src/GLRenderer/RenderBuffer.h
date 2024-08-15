@@ -1,12 +1,14 @@
 #pragma once
 
+#include "glrenderer_global.h"
+
 #include "PixelData.h"
 
 namespace glr {
 
 class FrameBufferObject;
 
-class RenderBuffer : public PixelData {
+class GLRENDERER_API RenderBuffer : public PixelData {
 
     VI_OBJECT_META;
 
