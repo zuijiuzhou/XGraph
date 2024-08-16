@@ -41,17 +41,17 @@ set(THIRD_PARTY_LIBS
 # add_compile_options("/EHa")
 
 foreach(lib_name ${THIRD_PARTY_LIBS})
-    list(APPEND CMAKE_PREFIX_PATH "${THIRD_PARTY_DIR}/${lib_name}")
+    list(APPEND CMAKE_PREFIX_PATH "${THIRD_PARTY_DIR}${lib_name}")
 endforeach()
 find_package(glm REQUIRED)
 find_package(glfw3 REQUIRED)
 
 # add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
 
-set(STB_INCLUDE_DIR "${THIRD_PARTY_DIR}/stb/include")
-set(GLAD_INCLUDE_DIR "${THIRD_PARTY_DIR}/glad/include")
-set(GLAD_SRC_DIR "${THIRD_PARTY_DIR}/glad/src")
-file(GLOB_RECURSE GLAD_SRC_FILES ${GLAD_SRC_DIR}/*.c)
+set(STB_INCLUDE_DIR "${THIRD_PARTY_DIR}stb/include")
+set(GLAD_INCLUDE_DIR "${THIRD_PARTY_DIR}glad/include")
+set(GLAD_SRC_DIR "${THIRD_PARTY_DIR}glad/src")
+file(GLOB_RECURSE GLAD_SRC_FILES ${GLAD_SRC_DIR}/glad.c ${GLAD_SRC_DIR}/glad_wgl.c)
 
 include_directories(${GLAD_INCLUDE_DIR})
 include_directories(${STB_INCLUDE_DIR})

@@ -7,6 +7,8 @@
 namespace glr {
 class Renderer;
 class Scene;
+class StateSet;
+
 class GLRENDERER_API Viewer : public Object {
     VI_OBJECT_META;
 
@@ -20,7 +22,6 @@ class GLRENDERER_API Viewer : public Object {
     void      setMasterRenderer(Renderer* renderer);
     Renderer* getMasterRenderer() const;
     void      addRenderer(Renderer* renderer);
-    void      setSceneData();
     int       getNbRenderers() const;
     Renderer* getRendererAt(int idx) const;
 

@@ -12,6 +12,7 @@ class UpdateContext;
 
 class GLRENDERER_API EventReceiver : public Object {
     VI_OBJECT_META;
+    VI_DISABLE_COPY_MOVE(EventReceiver);
 
   public:
     EventReceiver();

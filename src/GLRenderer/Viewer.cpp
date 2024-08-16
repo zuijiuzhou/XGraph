@@ -50,8 +50,11 @@ void Viewer::frame() {
 
     struct UpdateContextImpl : public UpdateContext {
 
-        virtual Renderer* getCurrentRenderer() const override { return renderer_; }
-        Renderer*         renderer_ = nullptr;
+        virtual Renderer* getCurrentRenderer() const override { return current_renderer_; }
+        virtual Renderer* getMasterRenderer() const override { return master_renderer_; }
+
+        Renderer* current_renderer_ = nullptr;
+        Renderer* master_renderer_  = nullptr;
     };
 
     UpdateContextImpl update_ctx;
@@ -61,7 +64,7 @@ void Viewer::frame() {
         auto  events    = ctx->getEventQueue();
         auto  s         = events->size();
         for (auto r : renderers) {
-            update_ctx.renderer_ = r;
+            update_ctx.current_renderer_ = r;
             r->update(&update_ctx);
         }
     }

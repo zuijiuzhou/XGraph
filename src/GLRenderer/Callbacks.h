@@ -10,6 +10,7 @@ class Renderer;
 
 class GLRENDERER_API UpdateContext {
   public:
+    virtual Renderer* getMasterRenderer() const = 0;
     virtual Renderer* getCurrentRenderer() const = 0;
 };
 

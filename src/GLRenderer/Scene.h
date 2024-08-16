@@ -8,7 +8,6 @@ namespace glr {
 class Model;
 class GLRENDERER_API Scene : public SceneNodeGroup {
     VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(Scene);
 
   public:
     Scene();
