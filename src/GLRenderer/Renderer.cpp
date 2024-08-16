@@ -24,8 +24,6 @@
 namespace glr {
 VI_OBJECT_META_IMPL(Renderer, Object);
 
-extern void state_set_current_camera(void* data, Camera* cam);
-
 struct Renderer::Data {
     vine::RefPtr<Camera>            camera;
     vine::RefPtr<GraphicContext>    ctx;
@@ -74,10 +72,14 @@ void Renderer::setCameraManipulator(CameraManipulator* cm) {
 }
 
 void Renderer::render(RenderInfo& info) {
-    if (!d->ctx) return;
+    if (!d->ctx){
+        return;
+    }
+    
     if (d->is_first_frame) {
         d->is_first_frame = false;
     }
+
     d->ctx->makeCurrent();
 
     glDepthRange(0.0, 1.0);
@@ -108,10 +110,13 @@ void Renderer::render(RenderInfo& info) {
         return;
     }
 
-    auto nb_models = scene->getNbModels();
+    auto nb_models = scene->getNbChildren();
     for (size_t i = 0; i < nb_models; ++i) {
-        auto model = scene->getModelAt(i);
-        state_set_current_camera(state.d, d->camera.get());
+        auto model = scene->getChildAt(i)->cast<Model>();
+        
+        if(!model){
+            continue;
+        }
         auto stateset = model->getStateSet();
         if (stateset) {
             state.applyShader(stateset);

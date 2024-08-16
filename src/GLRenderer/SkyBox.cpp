@@ -55,7 +55,7 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
         m1         = glm::rotate(m1, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
         auto mat_p = cam->getProjectionMatrix();
 
-        uniform_->setMat4x4(mat_p * mat_v * m1);
+        uniform_->setValue(mat_p * mat_v * m1);
     }
 
     Uniform* uniform_ = nullptr;

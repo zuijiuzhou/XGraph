@@ -22,8 +22,6 @@ class GLRENDERER_API State : public Object {
 
   public:
     Shader*         getCurrentShader() const;
-    Renderer*       getCurrentRenderer() const;
-    Camera*         getCurrentCamera() const;
     GraphicContext* getContext() const;
 
     void applyShader(StateSet* ss);
@@ -33,6 +31,9 @@ class GLRENDERER_API State : public Object {
     void attachGLObject(GLObject* obj);
     void detachGLObject(GLObject* obj);
     void releaseGLObjects();
+
+    void setUseMvpUniforms(bool val);
+    bool getUseMvpUniforms() const;
 
   private:
     VI_OBJECT_DATA;

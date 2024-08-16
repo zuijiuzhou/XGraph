@@ -2,20 +2,13 @@
 
 #include "glrenderer_global.h"
 
-#include <glm/mat4x4.hpp>
-
-#include "BoundingBox.h"
-#include "EventReceiver.h"
-#include "Object.h"
+#include "SceneNodeGroup.h"
 
 namespace glr {
 class Drawable;
-class StateSet;
-class State;
-class UpdateCallback;
 class Event;
 
-class GLRENDERER_API Model : public EventReceiver {
+class GLRENDERER_API Model : public SceneNodeGroup {
     VI_OBJECT_META;
 
   public:
@@ -23,21 +16,13 @@ class GLRENDERER_API Model : public EventReceiver {
     virtual ~Model();
 
   public:
-    glm::mat4 getMatrix() const;
-    void      setMatrix(const glm::mat4& mat);
-
-    StateSet* getOrCreateStateSet();
-    StateSet* getStateSet();
+    virtual void addChild(SceneNode* node) override;
 
     void addDrawable(Drawable* drawable);
     void removeDrawable(Drawable* drawable);
 
     int       getNbDrawables() const;
     Drawable* getDrawableAt(int index) const;
-
-    BoundingBox getBoundingBox() const;
-
-    virtual bool handleEvent(Event* e) override;
 
   private:
     VI_OBJECT_DATA;

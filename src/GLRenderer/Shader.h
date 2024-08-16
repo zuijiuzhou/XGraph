@@ -37,20 +37,65 @@ class GLRENDERER_API Shader : public GLObject {
         if constexpr (std::is_same<T, bool>::value) {
             glUniform1i(loc, (int)val);
         }
+        else if constexpr (std::is_same<T, glm::bvec2>::value) {
+            glUniform2i(loc, val.x, val.y);
+        }
+        else if constexpr (std::is_same<T, glm::bvec3>::value) {
+            glUniform3i(loc, val.x, val.y, val.z);
+        }
+        else if constexpr (std::is_same<T, glm::bvec4>::value) {
+            glUniform4i(loc, val.r, val.g, val.b, val.a);
+        }
+
         else if constexpr (std::is_same<T, int>::value) {
             glUniform1i(loc, val);
         }
+        else if constexpr (std::is_same<T, glm::ivec2>::value) {
+            glUniform2i(loc, val.x, val.y);
+        }
+        else if constexpr (std::is_same<T, glm::ivec3>::value) {
+            glUniform3i(loc, val.x, val.y, val.z);
+        }
+        else if constexpr (std::is_same<T, glm::ivec4>::value) {
+            glUniform4i(loc, val.r, val.g, val.b, val.a);
+        }
+
         else if constexpr (std::is_same<T, float>::value) {
             glUniform1f(loc, val);
         }
-        else if constexpr (std::is_same<T, glm::vec3>::value) {
+        else if constexpr (std::is_same<T, glm::fvec2>::value) {
+            glUniform2f(loc, val.x, val.y);
+        }
+        else if constexpr (std::is_same<T, glm::fvec3>::value) {
             glUniform3f(loc, val.x, val.y, val.z);
         }
-        else if constexpr (std::is_same<T, glm::vec4>::value) {
+        else if constexpr (std::is_same<T, glm::fvec4>::value) {
             glUniform4f(loc, val.r, val.g, val.b, val.a);
         }
-        else if constexpr (std::is_same<T, glm::mat4>::value) {
+        else if constexpr (std::is_same<T, glm::fmat3x3>::value) {
+            glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        }
+        else if constexpr (std::is_same<T, glm::fmat4x4>::value) {
             glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        }
+
+        else if constexpr (std::is_same<T, double>::value) {
+            glUniform1d(loc, val);
+        }
+        else if constexpr (std::is_same<T, glm::dvec2>::value) {
+            glUniform2d(loc, val.x, val.y);
+        }
+        else if constexpr (std::is_same<T, glm::dvec3>::value) {
+            glUniform3d(loc, val.x, val.y, val.z);
+        }
+        else if constexpr (std::is_same<T, glm::dvec4>::value) {
+            glUniform4d(loc, val.r, val.g, val.b, val.a);
+        }    
+        else if constexpr (std::is_same<T, glm::dmat3x3>::value) {
+            glUniformMatrix3dv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        }
+        else if constexpr (std::is_same<T, glm::dmat4x4>::value) {
+            glUniformMatrix4dv(loc, 1, GL_FALSE, glm::value_ptr(val));
         }
         else {
             static_assert("type not supported");

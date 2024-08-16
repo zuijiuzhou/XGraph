@@ -33,6 +33,9 @@
 #include "Viewer.h"
 
 void CreateSampleShapes(glr::Scene* scene) {
+    using ResMgr = glr::ResourceManager;
+    auto resmgr  = ResMgr::instance();
+
     auto axis = new glr::Model();
     {
         auto geom     = new glr::Geometry();
@@ -76,7 +79,6 @@ void CreateSampleShapes(glr::Scene* scene) {
         auto light = new glr::Light();
         light->setPosition(glm::vec4(10, 10, 10, 1.));
         light->setDirection(glm::vec3(2, 4, -1));
-        light->setIsHead(true);
         auto lights = new glr::Lights();
         lights->addLight(light);
 
@@ -90,13 +92,11 @@ void CreateSampleShapes(glr::Scene* scene) {
             glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Geometry));
     }
 
-    auto skybox =
-        glr::createSkyBox(glr::ResourceManager::instance()->getInternalCubeMap(glr::ResourceManager::ICM_CubeMap2));
+    auto skybox = glr::createSkyBox(resmgr->getInternalCubeMap(ResMgr::ICM_CubeMap2));
 
     auto pc = new glr::Model();
     {
-        pc->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_PointCloud));
+        pc->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_PointCloud));
         auto geom     = new glr::Geometry();
         auto vertices = new glr::Vec3fArray();
         auto colors   = new glr::Vec3fArray();
@@ -134,15 +134,14 @@ void CreateSampleShapes(glr::Scene* scene) {
         geom_img->addTexture(0, "tex", tex);
         img->addDrawable(geom_img);
         img->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", true));
-        img->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
+        img->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_Base));
     }
 
-    scene->addModel(axis);
-    scene->addModel(pc);
-    scene->addModel(cube);
-    scene->addModel(skybox);
-    scene->addModel(img);
+    scene->addChild(axis);
+    scene->addChild(pc);
+    scene->addChild(cube);
+    scene->addChild(skybox);
+    scene->addChild(img);
 }
 
 int main(int argc, char** argv) {
@@ -176,7 +175,6 @@ int main(int argc, char** argv) {
         auto light = new glr::Light();
         light->setPosition(glm::vec4(10, 10, 10, 1.));
         light->setDirection(glm::vec3(2, 4, -1));
-        light->setIsHead(true);
         auto lights = new glr::Lights();
         lights->addLight(light);
         model->getOrCreateStateSet()->setAttribute(new glr::Material());
@@ -184,7 +182,7 @@ int main(int argc, char** argv) {
         model->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
         model->getOrCreateStateSet()->setShader(
             glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
-        scene->addModel(model);
+        scene->addChild(model);
     }
     else {
         CreateSampleShapes(scene);

@@ -20,6 +20,8 @@ class GLRENDERER_API BoundingBox {
     void combine(const BoundingBox& box);
     void expandBy(const glm::vec3& pt);
 
+    void set(double xmin, double ymin, double zmin, double xmax, double ymax, double zmax);
+
   private:
     glm::vec3 min_;
     glm::vec3 max_;

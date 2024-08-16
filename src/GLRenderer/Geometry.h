@@ -35,8 +35,8 @@ class GLRENDERER_API Geometry : public Drawable {
     void addTexture(GLuint unit, const std::string& name, Texture* tex);
     void addPrimitiveSet(PrimitiveSet* prim);
 
-    virtual BoundingBox getBoundingBox() const override;
-    void                setBoundingBox(const BoundingBox& bb);
+  protected:
+    virtual void onComputeBoundingBox(BoundingBox& bb) const override;
 
   public:
     static Geometry* createCube(float size,

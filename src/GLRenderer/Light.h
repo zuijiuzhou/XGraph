@@ -48,9 +48,6 @@ class GLRENDERER_API Light : public Object {
     float getExponent() const;
     void  setExponent(float val);
 
-    void setIsHead(bool head);
-    bool getIsHead() const;
-
   private:
     glm::vec4 a_, d_, s_;
     glm::vec4 pos_;

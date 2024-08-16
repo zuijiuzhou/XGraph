@@ -19,9 +19,11 @@ Light::Light()
   , expo_(0.f)
   , co_(180) {
 }
+
 glm::vec4 Light::getAmbient() const {
     return a_;
 }
+
 void Light::setAmbient(const glm::vec4& color) {
     a_ = color;
 }
@@ -29,6 +31,7 @@ void Light::setAmbient(const glm::vec4& color) {
 glm::vec4 Light::getDiffuse() const {
     return d_;
 }
+
 void Light::setDiffuse(const glm::vec4& color) {
     d_ = color;
 }
@@ -36,6 +39,7 @@ void Light::setDiffuse(const glm::vec4& color) {
 glm::vec4 Light::getSpecular() const {
     return s_;
 }
+
 void Light::setSpecular(const glm::vec4& color) {
     s_ = color;
 }
@@ -43,6 +47,7 @@ void Light::setSpecular(const glm::vec4& color) {
 glm::vec3 Light::getDirection() const {
     return dir_;
 }
+
 void Light::setDirection(const glm::vec3& dir) {
     dir_ = glm::normalize(dir);
 }
@@ -50,6 +55,7 @@ void Light::setDirection(const glm::vec3& dir) {
 glm::vec4 Light::getPosition() const {
     return pos_;
 }
+
 void Light::setPosition(const glm::vec4& pos) {
     pos_ = pos;
 }
@@ -57,6 +63,7 @@ void Light::setPosition(const glm::vec4& pos) {
 float Light::getConstantAttenuation() const {
     return k_c_;
 }
+
 void Light::setConstantAttenuation(float val) {
     k_c_ = val;
 }
@@ -78,6 +85,7 @@ void Light::settQuadraticAttenuation(float val) {
 float Light::getCutoff() const {
     return co_;
 }
+
 void Light::setCutoff(float val) {
     co_ = val;
 }
@@ -87,14 +95,6 @@ float Light::getExponent() const {
 }
 void Light::setExponent(float val) {
     expo_ = val;
-}
-
-void Light::setIsHead(bool head) {
-    head_ = head;
-}
-
-bool Light::getIsHead() const {
-    return head_;
 }
 
 void Lights::addLight(Light* l) {
@@ -128,7 +128,9 @@ void Lights::apply(State& state) const {
     if (shader) {
         auto max_light = getMaxLight();
         for (int i = 0; i < lights_.size(); i++) {
-            if (i >= max_light) break;
+            if (i >= max_light) {
+                break;
+            }
             auto l      = lights_[i];
             auto prefix = "lights[" + std::to_string(i) + "]";
             shader->set(state, prefix + ".a", l->getAmbient());
@@ -142,13 +144,6 @@ void Lights::apply(State& state) const {
 
             auto dir = l->getDirection();
             auto pos = l->getPosition();
-            if (l->getIsHead()) {
-                dir           = state.getCurrentCamera()->getViewDir();
-                auto view_pos = state.getCurrentCamera()->getViewPos();
-                pos.x         = view_pos.x;
-                pos.y         = view_pos.y;
-                pos.z         = view_pos.z;
-            }
             shader->set(state, prefix + ".dir", dir);
             shader->set(state, prefix + ".pos", pos);
         }

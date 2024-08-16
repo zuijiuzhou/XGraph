@@ -54,4 +54,14 @@ void BoundingBox::expandBy(const glm::vec3& pt) {
     swap(min_, temp);
     swap(temp, max_);
 }
+
+void BoundingBox::set(double xmin, double ymin, double zmin, double xmax, double ymax, double zmax){
+    min_.x = xmin;
+    min_.y = ymin;
+    min_.z = zmin;
+
+    max_.x = xmax;
+    max_.y = ymax;
+    max_.z = zmax;
+}
 } // namespace glr

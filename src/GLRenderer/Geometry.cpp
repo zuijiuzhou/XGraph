@@ -17,7 +17,6 @@ struct Geometry::Data {
     std::map<GLuint, GLuint>                texture_locs;
     std::map<GLuint, std::string>           texture_names_;
     std::vector<vine::RefPtr<PrimitiveSet>> primitives;
-    BoundingBox                             bb;
 };
 
 Geometry::Geometry()
@@ -132,11 +131,8 @@ void Geometry::draw(State& state) {
     }
 }
 
-BoundingBox Geometry::getBoundingBox() const {
-    return d->bb;
-}
-void Geometry::setBoundingBox(const BoundingBox& bb) {
-    d->bb = bb;
+void Geometry::onComputeBoundingBox(BoundingBox& bb) const{
+
 }
 
 Geometry*
