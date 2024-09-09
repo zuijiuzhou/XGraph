@@ -14,23 +14,27 @@ file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 add_executable(${CURRENT_TARGET_NAME} ${SRC_FILES} ${HEADER_FILES} ${GLAD_SRC_FILES})
 
-target_compile_definitions(${CURRENT_TARGET_NAME} PRIVATE GLRENDERER_LIB)
+target_link_libraries(${CURRENT_TARGET_NAME}
+    PUBLIC
+        glm::glm
+        vi::Core vi::Ge
+    PRIVATE
+        StdUtils 
+        glfw
+        assimp::assimp 
+        SDL2::SDL2 
+        Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
+        ${PCL_LIBRARIES} 
+        ${OpenCV_LIBS}
+        opengl32.lib
+)
 
-target_link_libraries(${CURRENT_TARGET_NAME} PRIVATE
-    StdUtils 
-    vi::Core vi::Ge 
-    glfw
-    glm::glm 
-    assimp::assimp 
-    SDL2::SDL2 
-    Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
-    ${PCL_LIBRARIES} 
-    ${OpenCV_LIBS}
-    opengl32.lib)
-
- message(----------- ${VTK_LIBRARIES})
-
-target_compile_definitions(${CURRENT_TARGET_NAME} PRIVATE CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}" CURRENT_RES_DIR="${GLSTART_RES_ROOT_DIR}${CURRENT_TARGET_NAME}")
+target_compile_definitions(${CURRENT_TARGET_NAME} 
+    PRIVATE 
+        CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}" 
+        CURRENT_RES_DIR="${XGRAPH_RES_ROOT_DIR}${CURRENT_TARGET_NAME}"
+        GLRENDERER_LIB
+)
 
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
 set(RES_OUTPUT_DIR ${CONFIG_GLSTART_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)

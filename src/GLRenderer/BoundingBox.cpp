@@ -5,9 +5,9 @@
 namespace glr {
 namespace {
 void swap(glm::vec3& min, glm::vec3& max) {
-    if (min.x > max.x) std::swap(min.x, max.x);
-    if (min.y > max.y) std::swap(min.y, max.y);
-    if (min.z > max.z) std::swap(min.z, max.z);
+    if (min.x > max.x) std::swap<float>(min.x, max.x);
+    if (min.y > max.y) std::swap<float>(min.y, max.y);
+    if (min.z > max.z) std::swap<float>(min.z, max.z);
 }
 } // namespace
 

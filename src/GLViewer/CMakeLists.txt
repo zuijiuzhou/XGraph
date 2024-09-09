@@ -35,7 +35,7 @@ if(NOT DEFINED osgVerse_LIBRARIES)
     #     set(item ${item})
     # endforeach()
 endif()
-message(---------${PCL_LIBRARIES})
+
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
         StdUtils 

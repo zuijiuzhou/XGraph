@@ -1,4 +1,4 @@
-SET(CURRENT_TARGET_NAME VS_SDK_REFERENCESViewer)
+SET(CURRENT_TARGET_NAME VKViewer)
 
 find_package(opencascade REQUIRED)
 find_package(assimp REQUIRED)
